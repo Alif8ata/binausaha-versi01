@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Artikel & Edukasi Bisnis - BinaUsaha</title>
+    <meta name="description" content="Kumpulan artikel, tips, dan panduan lengkap untuk membantu UMKM Indonesia berkembang. Pelajari tentang legalitas, website, pemasaran, dan keuangan.">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#0C79E8',
+                        primaryHover: '#0a65c2',
+                        secondary: '#0F172A',
+                        bgsubtle: '#EFF6FF',
+                        bordercolor: '#E5E7EB',
+                        success: '#16A34A',
+                        warning: '#F59E0B',
+                        danger: '#EF4444',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        heading: ['Plus Jakarta Sans', 'sans-serif'],
+                    },
+                    boxShadow: {
+                        'soft': '0 8px 24px rgba(15,23,42,0.06)',
+                        'float': '0 16px 40px rgba(15,23,42,0.12)',
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        /* Base styles */
+        body { font-family: 'Inter', sans-serif; color: #0F172A; }
+        h1, h2, h3, h4, h5, h6 { font-family: 'Plus Jakarta Sans', sans-serif; }
+        
+        /* Glassmorphism utility */
+        .glass {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+        }
+
+        /* Hide scrollbar for clean UI */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+        
+        /* Article card hover effect */
+        .article-card:hover .article-image {
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body class="bg-gray-50 antialiased flex flex-col min-h-screen">
+
+    <!-- Navbar -->
+    <nav id="navbar" class="fixed w-full z-50 transition-all duration-300 bg-white/80 backdrop-blur-md border-b border-gray-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <!-- Logo -->
+                <a href="index.html" class="flex-shrink-0 flex items-center gap-2 cursor-pointer">
+                    <div class="w-10 h-10 bg-primary rounded-xl flex items-center justify-center text-white font-heading font-bold text-xl shadow-soft">
+                        B
+                    </div>
+                    <span class="font-heading font-bold text-xl text-secondary">BinaUsaha</span>
+                </a>
+                
+                <!-- Desktop Menu -->
+                <div class="hidden md:flex space-x-8">
+                    <a href="index.html" class="text-gray-600 hover:text-primary transition font-medium">Beranda</a>
+                    <a href="index.html#solusi" class="text-gray-600 hover:text-primary transition font-medium">Solusi</a>
+                    <a href="index.html#produk" class="text-gray-600 hover:text-primary transition font-medium">Produk</a>
+                    <a href="index.html#cara-kerja" class="text-gray-600 hover:text-primary transition font-medium">Cara Kerja</a>
+                    <a href="artikel.html" class="text-primary font-medium">Artikel</a>
+                </div>
+                
+                <!-- CTA Button -->
+                <div class="hidden md:flex">
+                    <a href="index.html#konsultasi" class="bg-primary hover:bg-primaryHover text-white px-6 py-2.5 rounded-lg font-medium transition duration-300 shadow-soft hover:shadow-float">
+                        Konsultasi Gratis
+                    </a>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <div class="md:hidden flex items-center">
+                    <button id="openMobileMenuBtn" class="text-gray-600 hover:text-primary transition-colors focus:outline-none p-2 -mr-2 rounded-lg">
+                        <i data-lucide="menu" class="w-6 h-6"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu Overlay & Bottom Sheet -->
+    <div id="mobileMenu" class="fixed inset-0 z-[100] pointer-events-none md:hidden flex flex-col justify-end">
+        <div id="mobileMenuBackdrop" class="absolute inset-0 bg-secondary/40 backdrop-blur-sm opacity-0 transition-opacity duration-300"></div>
+        <div id="mobileMenuSheet" class="relative w-full bg-white rounded-t-3xl transform translate-y-full transition-transform duration-300 ease-out shadow-[0_-8px_30px_rgba(0,0,0,0.1)] flex flex-col max-h-[85vh]">
+            <div class="flex justify-center items-center p-5 border-b border-gray-100 relative">
+                <div class="w-12 h-1.5 bg-gray-200 rounded-full absolute top-3"></div>
+                <h3 class="font-heading font-bold text-secondary mt-1">Menu Navigasi</h3>
+                <button id="closeMobileMenu" class="absolute right-4 p-2 text-gray-400 hover:text-gray-700 bg-gray-50 hover:bg-gray-100 rounded-full transition-colors">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+            </div>
+            <div class="flex-1 overflow-y-auto py-2 px-6">
+                <div class="flex flex-col space-y-1 py-4">
+                    <a href="index.html" class="mobile-link flex items-center gap-4 py-3.5 text-base font-medium text-gray-700 hover:text-primary transition-colors">
+                        <div class="w-8 h-8 rounded-lg bg-blue-50 text-primary flex items-center justify-center"><i data-lucide="home" class="w-4 h-4"></i></div>
+                        Beranda
+                    </a>
+                    <a href="index.html#solusi" class="mobile-link flex items-center gap-4 py-3.5 text-base font-medium text-gray-700 hover:text-primary transition-colors border-t border-gray-50">
+                        <div class="w-8 h-8 rounded-lg bg-blue-50 text-primary flex items-center justify-center"><i data-lucide="layout-template" class="w-4 h-4"></i></div>
+                        Solusi
+                    </a>
+                    <a href="index.html#produk" class="mobile-link flex items-center gap-4 py-3.5 text-base font-medium text-gray-700 hover:text-primary transition-colors border-t border-gray-50">
+                        <div class="w-8 h-8 rounded-lg bg-blue-50 text-primary flex items-center justify-center"><i data-lucide="box" class="w-4 h-4"></i></div>
+                        Produk
+                    </a>
+                    <a href="index.html#cara-kerja" class="mobile-link flex items-center gap-4 py-3.5 text-base font-medium text-gray-700 hover:text-primary transition-colors border-t border-gray-50">
+                        <div class="w-8 h-8 rounded-lg bg-blue-50 text-primary flex items-center justify-center"><i data-lucide="git-merge" class="w-4 h-4"></i></div>
+                        Cara Kerja
+                    </a>
+                    <a href="artikel.html" class="mobile-link flex items-center gap-4 py-3.5 text-base font-medium text-primary bg-blue-50/50 rounded-xl transition-colors border-t border-gray-50 -mx-2 px-2">
+                        <div class="w-8 h-8 rounded-lg bg-primary text-white flex items-center justify-center"><i data-lucide="book-open" class="w-4 h-4"></i></div>
+                        Artikel
+                    </a>
+                </div>
+            </div>
+            <div class="p-6 bg-gray-50/80 backdrop-blur border-t border-gray-100 rounded-t-2xl pb-safe">
+                <a href="index.html#konsultasi" class="mobile-link w-full bg-primary hover:bg-primaryHover text-white py-3.5 rounded-xl font-medium text-center transition duration-300 shadow-soft shadow-blue-500/30 flex justify-center items-center gap-2">
+                    <i data-lucide="message-circle" class="w-5 h-5"></i>
+                    Konsultasi Gratis
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Header Artikel & Pencarian -->
+    <section class="pt-32 pb-12 bg-white border-b border-bordercolor relative overflow-hidden">
+        <!-- Background Elements -->
+        <div class="absolute top-0 right-0 w-96 h-96 bg-bgsubtle rounded-full mix-blend-multiply filter blur-3xl opacity-50 -translate-y-1/2 translate-x-1/3"></div>
+        <div class="absolute bottom-0 left-0 w-64 h-64 bg-blue-50 rounded-full mix-blend-multiply filter blur-3xl opacity-50 translate-y-1/2 -translate-x-1/2"></div>
+        
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="text-center max-w-3xl mx-auto">
+                <h1 class="text-4xl md:text-5xl font-heading font-extrabold text-secondary mb-6">Wawasan & <span class="text-primary">Edukasi Bisnis</span></h1>
+                <p class="text-gray-600 text-lg mb-10">Kumpulan artikel, tips, dan panduan praktis untuk membantu UMKM Indonesia berkembang dan naik kelas.</p>
+                
+                <!-- Search Bar -->
+                <div class="relative max-w-2xl mx-auto group">
+                    <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-gray-400 group-focus-within:text-primary transition-colors">
+                        <i data-lucide="search" class="w-5 h-5"></i>
+                    </div>
+                    <input type="text" class="block w-full pl-12 pr-4 py-4 rounded-2xl border border-bordercolor bg-white text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary shadow-sm transition-all text-base" placeholder="Cari artikel tentang legalitas, pemasaran, website...">
+                    <button class="absolute inset-y-2 right-2 px-6 bg-secondary hover:bg-gray-800 text-white font-medium rounded-xl transition-colors text-sm">
+                        Cari
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Kategori & Main Content -->
+    <section class="py-12 flex-1">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            
+            <!-- Filter Kategori -->
+            <div class="flex flex-wrap items-center justify-center gap-3 mb-12">
+                <button class="px-5 py-2.5 rounded-full bg-primary text-white font-medium text-sm shadow-sm transition-all">Semua Artikel</button>
+                <button class="px-5 py-2.5 rounded-full bg-white text-gray-600 hover:bg-gray-50 border border-gray-200 font-medium text-sm transition-all hover:border-blue-200 hover:text-primary">Legalitas</button>
+                <button class="px-5 py-2.5 rounded-full bg-white text-gray-600 hover:bg-gray-50 border border-gray-200 font-medium text-sm transition-all hover:border-blue-200 hover:text-primary">Digital & Website</button>
+                <button class="px-5 py-2.5 rounded-full bg-white text-gray-600 hover:bg-gray-50 border border-gray-200 font-medium text-sm transition-all hover:border-blue-200 hover:text-primary">Keuangan</button>
+                <button class="px-5 py-2.5 rounded-full bg-white text-gray-600 hover:bg-gray-50 border border-gray-200 font-medium text-sm transition-all hover:border-blue-200 hover:text-primary">Pemasaran</button>
+                <button class="px-5 py-2.5 rounded-full bg-white text-gray-600 hover:bg-gray-50 border border-gray-200 font-medium text-sm transition-all hover:border-blue-200 hover:text-primary">Tips Bisnis</button>
+            </div>
+
+            <!-- Grid Artikel -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                
+                <!-- Article 1 (Featured styling potential) -->
+                <article class="bg-white rounded-2xl overflow-hidden border border-bordercolor shadow-sm hover:shadow-float transition-all duration-300 article-card flex flex-col cursor-pointer group">
+                    <div class="relative h-56 overflow-hidden bg-gray-100">
+                        <img src="https://placehold.co/600x400/e2e8f0/475569?text=Legalitas+UMKM" alt="Legalitas UMKM" class="w-full h-full object-cover article-image transition-transform duration-500">
+                        <div class="absolute top-4 left-4">
+                            <span class="bg-white/90 backdrop-blur text-secondary px-3 py-1 rounded-lg text-xs font-bold border border-white/50">Legalitas</span>
+                        </div>
+                    </div>
+                    <div class="p-6 flex-1 flex flex-col">
+                        <div class="flex items-center text-xs text-gray-400 mb-3 gap-4">
+                            <span class="flex items-center gap-1"><i data-lucide="calendar" class="w-3.5 h-3.5"></i> 12 Juli 2026</span>
+                            <span class="flex items-center gap-1"><i data-lucide="clock" class="w-3.5 h-3.5"></i> 5 Min baca</span>
+                        </div>
+                        <h3 class="font-heading font-bold text-xl text-secondary mb-3 leading-snug group-hover:text-primary transition-colors">Panduan Lengkap Mengurus NIB untuk UMKM Kuliner di 2026</h3>
+                        <p class="text-gray-600 text-sm mb-6 flex-1 line-clamp-3">NIB adalah kunci untuk membuka banyak peluang bisnis. Ketahui langkah-langkah mudah, syarat terbaru, dan hindari kesalahan umum saat mendaftar OSS.</p>
+                        <div class="mt-auto border-t border-gray-100 pt-4 flex items-center justify-between">
+                            <div class="flex items-center gap-2">
+                                <img src="https://placehold.co/100x100/cbd5e1/475569?text=Tim" class="w-7 h-7 rounded-full" alt="Author">
+                                <span class="text-xs font-medium text-gray-600">Tim BinaUsaha</span>
+                            </div>
+                            <span class="text-primary text-sm font-semibold flex items-center gap-1 group-hover:gap-2 transition-all">Baca <i data-lucide="arrow-right" class="w-4 h-4"></i></span>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Article 2 -->
+                <article class="bg-white rounded-2xl overflow-hidden border border-bordercolor shadow-sm hover:shadow-float transition-all duration-300 article-card flex flex-col cursor-pointer group">
+                    <div class="relative h-56 overflow-hidden bg-gray-100">
+                        <img src="https://placehold.co/600x400/e0f2fe/0369a1?text=Website+Bisnis" alt="Website Bisnis" class="w-full h-full object-cover article-image transition-transform duration-500">
+                        <div class="absolute top-4 left-4">
+                            <span class="bg-white/90 backdrop-blur text-primary px-3 py-1 rounded-lg text-xs font-bold border border-white/50">Digital & Website</span>
+                        </div>
+                    </div>
+                    <div class="p-6 flex-1 flex flex-col">
+                        <div class="flex items-center text-xs text-gray-400 mb-3 gap-4">
+                            <span class="flex items-center gap-1"><i data-lucide="calendar" class="w-3.5 h-3.5"></i> 08 Juli 2026</span>
+                            <span class="flex items-center gap-1"><i data-lucide="clock" class="w-3.5 h-3.5"></i> 4 Min baca</span>
+                        </div>
+                        <h3 class="font-heading font-bold text-xl text-secondary mb-3 leading-snug group-hover:text-primary transition-colors">5 Alasan Mengapa Bisnis Anda Wajib Punya Website Sendiri</h3>
+                        <p class="text-gray-600 text-sm mb-6 flex-1 line-clamp-3">Mengandalkan media sosial saja tidak cukup. Pelajari bagaimana website dapat meningkatkan kredibilitas dan mendatangkan pelanggan tanpa batas waktu.</p>
+                        <div class="mt-auto border-t border-gray-100 pt-4 flex items-center justify-between">
+                            <div class="flex items-center gap-2">
+                                <img src="https://placehold.co/100x100/cbd5e1/475569?text=Tim" class="w-7 h-7 rounded-full" alt="Author">
+                                <span class="text-xs font-medium text-gray-600">Tim BinaUsaha</span>
+                            </div>
+                            <span class="text-primary text-sm font-semibold flex items-center gap-1 group-hover:gap-2 transition-all">Baca <i data-lucide="arrow-right" class="w-4 h-4"></i></span>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Article 3 -->
+                <article class="bg-white rounded-2xl overflow-hidden border border-bordercolor shadow-sm hover:shadow-float transition-all duration-300 article-card flex flex-col cursor-pointer group">
+                    <div class="relative h-56 overflow-hidden bg-gray-100">
+                        <img src="https://placehold.co/600x400/fef3c7/b45309?text=Manajemen+Keuangan" alt="Keuangan" class="w-full h-full object-cover article-image transition-transform duration-500">
+                        <div class="absolute top-4 left-4">
+                            <span class="bg-white/90 backdrop-blur text-warning px-3 py-1 rounded-lg text-xs font-bold border border-white/50">Keuangan</span>
+                        </div>
+                    </div>
+                    <div class="p-6 flex-1 flex flex-col">
+                        <div class="flex items-center text-xs text-gray-400 mb-3 gap-4">
+                            <span class="flex items-center gap-1"><i data-lucide="calendar" class="w-3.5 h-3.5"></i> 02 Juli 2026</span>
+                            <span class="flex items-center gap-1"><i data-lucide="clock" class="w-3.5 h-3.5"></i> 6 Min baca</span>
+                        </div>
+                        <h3 class="font-heading font-bold text-xl text-secondary mb-3 leading-snug group-hover:text-primary transition-colors">Cara Memisahkan Uang Pribadi dan Uang Usaha Tanpa Pusing</h3>
+                        <p class="text-gray-600 text-sm mb-6 flex-1 line-clamp-3">Kesalahan terbesar pebisnis pemula adalah mencampur aduk dana. Berikut tips dan trik sederhana untuk menata arus kas agar bisnis tetap sehat.</p>
+                        <div class="mt-auto border-t border-gray-100 pt-4 flex items-center justify-between">
+                            <div class="flex items-center gap-2">
+                                <img src="https://placehold.co/100x100/cbd5e1/475569?text=Tim" class="w-7 h-7 rounded-full" alt="Author">
+                                <span class="text-xs font-medium text-gray-600">Tim BinaUsaha</span>
+                            </div>
+                            <span class="text-primary text-sm font-semibold flex items-center gap-1 group-hover:gap-2 transition-all">Baca <i data-lucide="arrow-right" class="w-4 h-4"></i></span>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Article 4 -->
+                <article class="bg-white rounded-2xl overflow-hidden border border-bordercolor shadow-sm hover:shadow-float transition-all duration-300 article-card flex flex-col cursor-pointer group">
+                    <div class="relative h-56 overflow-hidden bg-gray-100">
+                        <img src="https://placehold.co/600x400/fce7f3/be185d?text=Strategi+Marketing" alt="Pemasaran" class="w-full h-full object-cover article-image transition-transform duration-500">
+                        <div class="absolute top-4 left-4">
+                            <span class="bg-white/90 backdrop-blur text-pink-600 px-3 py-1 rounded-lg text-xs font-bold border border-white/50">Pemasaran</span>
+                        </div>
+                    </div>
+                    <div class="p-6 flex-1 flex flex-col">
+                        <div class="flex items-center text-xs text-gray-400 mb-3 gap-4">
+                            <span class="flex items-center gap-1"><i data-lucide="calendar" class="w-3.5 h-3.5"></i> 28 Juni 2026</span>
+                            <span class="flex items-center gap-1"><i data-lucide="clock" class="w-3.5 h-3.5"></i> 7 Min baca</span>
+                        </div>
+                        <h3 class="font-heading font-bold text-xl text-secondary mb-3 leading-snug group-hover:text-primary transition-colors">Strategi Branding Sederhana yang Bikin Pelanggan Balik Lagi</h3>
+                        <p class="text-gray-600 text-sm mb-6 flex-1 line-clamp-3">Branding bukan sekadar logo. Ini adalah tentang pengalaman. Temukan cara murah dan efektif untuk membangun loyalitas merek di tingkat lokal.</p>
+                        <div class="mt-auto border-t border-gray-100 pt-4 flex items-center justify-between">
+                            <div class="flex items-center gap-2">
+                                <img src="https://placehold.co/100x100/cbd5e1/475569?text=Tim" class="w-7 h-7 rounded-full" alt="Author">
+                                <span class="text-xs font-medium text-gray-600">Tim BinaUsaha</span>
+                            </div>
+                            <span class="text-primary text-sm font-semibold flex items-center gap-1 group-hover:gap-2 transition-all">Baca <i data-lucide="arrow-right" class="w-4 h-4"></i></span>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Article 5 -->
+                <article class="bg-white rounded-2xl overflow-hidden border border-bordercolor shadow-sm hover:shadow-float transition-all duration-300 article-card flex flex-col cursor-pointer group">
+                    <div class="relative h-56 overflow-hidden bg-gray-100">
+                        <img src="https://placehold.co/600x400/dcfce7/166534?text=Sistem+Kasir" alt="Kasir Digital" class="w-full h-full object-cover article-image transition-transform duration-500">
+                        <div class="absolute top-4 left-4">
+                            <span class="bg-white/90 backdrop-blur text-success px-3 py-1 rounded-lg text-xs font-bold border border-white/50">Operasional</span>
+                        </div>
+                    </div>
+                    <div class="p-6 flex-1 flex flex-col">
+                        <div class="flex items-center text-xs text-gray-400 mb-3 gap-4">
+                            <span class="flex items-center gap-1"><i data-lucide="calendar" class="w-3.5 h-3.5"></i> 20 Juni 2026</span>
+                            <span class="flex items-center gap-1"><i data-lucide="clock" class="w-3.5 h-3.5"></i> 4 Min baca</span>
+                        </div>
+                        <h3 class="font-heading font-bold text-xl text-secondary mb-3 leading-snug group-hover:text-primary transition-colors">Tinggalkan Cara Manual, Ini Keuntungan Menggunakan Kasir Digital</h3>
+                        <p class="text-gray-600 text-sm mb-6 flex-1 line-clamp-3">Dari laporan stok otomatis hingga analisis tren penjualan. Lihat bagaimana transisi ke sistem POS (seperti RajaKas) bisa menghemat waktu Anda.</p>
+                        <div class="mt-auto border-t border-gray-100 pt-4 flex items-center justify-between">
+                            <div class="flex items-center gap-2">
+                                <img src="https://placehold.co/100x100/cbd5e1/475569?text=Tim" class="w-7 h-7 rounded-full" alt="Author">
+                                <span class="text-xs font-medium text-gray-600">Tim BinaUsaha</span>
+                            </div>
+                            <span class="text-primary text-sm font-semibold flex items-center gap-1 group-hover:gap-2 transition-all">Baca <i data-lucide="arrow-right" class="w-4 h-4"></i></span>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Article 6 -->
+                <article class="bg-white rounded-2xl overflow-hidden border border-bordercolor shadow-sm hover:shadow-float transition-all duration-300 article-card flex flex-col cursor-pointer group">
+                    <div class="relative h-56 overflow-hidden bg-gray-100">
+                        <img src="https://placehold.co/600x400/f3e8ff/7e22ce?text=Scale+Up+Bisnis" alt="Tips Bisnis" class="w-full h-full object-cover article-image transition-transform duration-500">
+                        <div class="absolute top-4 left-4">
+                            <span class="bg-white/90 backdrop-blur text-purple-600 px-3 py-1 rounded-lg text-xs font-bold border border-white/50">Tips Bisnis</span>
+                        </div>
+                    </div>
+                    <div class="p-6 flex-1 flex flex-col">
+                        <div class="flex items-center text-xs text-gray-400 mb-3 gap-4">
+                            <span class="flex items-center gap-1"><i data-lucide="calendar" class="w-3.5 h-3.5"></i> 15 Juni 2026</span>
+                            <span class="flex items-center gap-1"><i data-lucide="clock" class="w-3.5 h-3.5"></i> 6 Min baca</span>
+                        </div>
+                        <h3 class="font-heading font-bold text-xl text-secondary mb-3 leading-snug group-hover:text-primary transition-colors">Kapan Waktu yang Tepat untuk Scale Up Bisnis Anda?</h3>
+                        <p class="text-gray-600 text-sm mb-6 flex-1 line-clamp-3">Membuka cabang baru atau memperluas produksi membutuhkan kesiapan. Kenali 5 tanda bahwa bisnis Anda sudah siap untuk melangkah ke tahap selanjutnya.</p>
+                        <div class="mt-auto border-t border-gray-100 pt-4 flex items-center justify-between">
+                            <div class="flex items-center gap-2">
+                                <img src="https://placehold.co/100x100/cbd5e1/475569?text=Tim" class="w-7 h-7 rounded-full" alt="Author">
+                                <span class="text-xs font-medium text-gray-600">Tim BinaUsaha</span>
+                            </div>
+                            <span class="text-primary text-sm font-semibold flex items-center gap-1 group-hover:gap-2 transition-all">Baca <i data-lucide="arrow-right" class="w-4 h-4"></i></span>
+                        </div>
+                    </div>
+                </article>
+
+            </div>
+
+            <!-- Pagination -->
+            <div class="flex justify-center items-center mt-16 gap-2">
+                <button class="w-10 h-10 rounded-xl flex items-center justify-center border border-gray-200 text-gray-400 cursor-not-allowed">
+                    <i data-lucide="chevron-left" class="w-5 h-5"></i>
+                </button>
+                <button class="w-10 h-10 rounded-xl flex items-center justify-center bg-primary text-white font-medium shadow-sm">1</button>
+                <button class="w-10 h-10 rounded-xl flex items-center justify-center border border-gray-200 text-gray-600 hover:bg-gray-50 hover:text-primary transition-colors font-medium">2</button>
+                <button class="w-10 h-10 rounded-xl flex items-center justify-center border border-gray-200 text-gray-600 hover:bg-gray-50 hover:text-primary transition-colors font-medium">3</button>
+                <span class="px-2 text-gray-400">...</span>
+                <button class="w-10 h-10 rounded-xl flex items-center justify-center border border-gray-200 text-gray-600 hover:bg-gray-50 hover:text-primary transition-colors">
+                    <i data-lucide="chevron-right" class="w-5 h-5"></i>
+                </button>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="py-24 bg-white border-t border-gray-100">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="bg-secondary rounded-3xl p-10 md:p-16 text-center relative overflow-hidden shadow-float">
+                <div class="absolute top-0 right-0 w-64 h-64 bg-primary rounded-full mix-blend-screen filter blur-3xl opacity-50 -translate-y-1/2 translate-x-1/3"></div>
+                <div class="absolute bottom-0 left-0 w-64 h-64 bg-blue-500 rounded-full mix-blend-screen filter blur-3xl opacity-30 translate-y-1/2 -translate-x-1/3"></div>
+                
+                <div class="relative z-10">
+                    <h2 class="text-3xl md:text-5xl font-heading font-bold text-white mb-6">Siap Mengembangkan Bisnis Anda?</h2>
+                    <p class="text-gray-300 text-lg max-w-2xl mx-auto mb-10">
+                        Konsultasikan kebutuhan usaha Anda secara gratis bersama tim BinaUsaha. Tidak ada komitmen di awal, kami hadir untuk mendengar dan memberi solusi.
+                    </p>
+                    <div class="flex flex-col sm:flex-row justify-center gap-4">
+                        <a href="index.html#konsultasi" class="bg-primary hover:bg-primaryHover text-white px-8 py-4 rounded-xl font-bold text-lg transition duration-300 shadow-soft flex justify-center items-center gap-2">
+                            Mulai Konsultasi Gratis
+                            <i data-lucide="message-circle" class="w-5 h-5"></i>
+                        </a>
+                    </div>
+                    <p class="text-sm text-gray-400 mt-6">
+                        <i data-lucide="shield-check" class="w-4 h-4 inline mr-1"></i> Data dan privasi usaha Anda terjamin aman.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-50 border-t border-bordercolor pt-20 pb-10 mt-auto">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
+                <!-- Brand Col -->
+                <div class="lg:col-span-1">
+                    <div class="flex items-center gap-2 mb-6">
+                        <div class="w-8 h-8 bg-primary rounded-lg flex items-center justify-center text-white font-heading font-bold shadow-sm">
+                            B
+                        </div>
+                        <span class="font-heading font-bold text-xl text-secondary">BinaUsaha</span>
+                    </div>
+                    <p class="text-gray-500 text-sm leading-relaxed mb-6">
+                        Platform pendampingan digital yang mengintegrasikan legalitas, website, dan sistem operasional usaha untuk UMKM Indonesia.
+                    </p>
+                </div>
+
+                <!-- Links Col 1 -->
+                <div>
+                    <h4 class="font-heading font-bold text-secondary mb-6">Produk Kami</h4>
+                    <ul class="space-y-4">
+                        <li><a href="#" class="text-gray-500 hover:text-primary text-sm transition">Website UMKM</a></li>
+                        <li><a href="#" class="text-gray-500 hover:text-primary text-sm transition">RajaKas (POS)</a></li>
+                        <li><a href="#" class="text-gray-500 hover:text-primary text-sm transition">Legalitas (NIB, Halal)</a></li>
+                        <li><a href="#" class="text-gray-500 hover:text-primary text-sm transition">Digital Marketing</a></li>
+                        <li><a href="#" class="text-gray-500 hover:text-primary text-sm transition">Pendampingan Bisnis</a></li>
+                    </ul>
+                </div>
+
+                <!-- Links Col 2 -->
+                <div>
+                    <h4 class="font-heading font-bold text-secondary mb-6">Perusahaan</h4>
+                    <ul class="space-y-4">
+                        <li><a href="#" class="text-gray-500 hover:text-primary text-sm transition">Tentang Kami</a></li>
+                        <li><a href="index.html#cara-kerja" class="text-gray-500 hover:text-primary text-sm transition">Cara Kerja</a></li>
+                        <li><a href="artikel.html" class="text-gray-500 hover:text-primary text-sm transition">Artikel & Edukasi</a></li>
+                        <li><a href="#" class="text-gray-500 hover:text-primary text-sm transition">Kisah Sukses</a></li>
+                        <li><a href="#" class="text-gray-500 hover:text-primary text-sm transition">Kontak</a></li>
+                    </ul>
+                </div>
+
+                <!-- Contact Col -->
+                <div>
+                    <h4 class="font-heading font-bold text-secondary mb-6">Hubungi Kami</h4>
+                    <ul class="space-y-4">
+                        <li class="flex items-start gap-3 text-gray-500 text-sm">
+                            <i data-lucide="map-pin" class="w-5 h-5 text-primary flex-shrink-0"></i>
+                            <span>Gedung Inovasi UMKM, Jl. Jend. Sudirman No. 123, Jakarta Selatan, 12190</span>
+                        </li>
+                        <li class="flex items-center gap-3 text-gray-500 text-sm">
+                            <i data-lucide="mail" class="w-5 h-5 text-primary flex-shrink-0"></i>
+                            <span>halo@binausaha.com</span>
+                        </li>
+                    </ul>
+                    
+                    <!-- Social Media Icons (Custom SVG to match Lucide standard style) -->
+                    <div class="flex items-center gap-5 mt-8">
+                        <a href="#" class="text-gray-400 hover:text-primary transition duration-300" aria-label="Instagram">
+                            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <rect width="20" height="20" x="2" y="2" rx="5" ry="5"></rect>
+                                <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                                <line x1="17.5" x2="17.51" y1="6.5" y2="6.5"></line>
+                            </svg>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-primary transition duration-300" aria-label="YouTube">
+                            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M2.5 7.1C2.5 7.1 2.5 6.3 2.8 5.6C3.1 4.9 3.6 4.4 4.3 4.1C5 3.8 12 3.8 12 3.8C12 3.8 19 3.8 19.7 4.1C20.4 4.4 20.9 4.9 21.2 5.6C21.5 6.3 21.5 7.1 21.5 7.1C21.5 7.1 21.5 9 21.5 12C21.5 15 21.5 16.9 21.5 16.9C21.5 16.9 21.5 17.7 21.2 18.4C20.9 19.1 20.4 19.6 19.7 19.9C19 20.2 12 20.2 12 20.2C12 20.2 5 20.2 4.3 19.9C3.6 19.6 3.1 19.1 2.8 18.4C2.5 17.7 2.5 16.9 2.5 16.9C2.5 16.9 2.5 15 2.5 12C2.5 9 2.5 7.1 2.5 7.1Z"></path>
+                                <path d="M10 15L15 12L10 9V15Z"></path>
+                            </svg>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-primary transition duration-300" aria-label="TikTok">
+                            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5"></path>
+                            </svg>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-primary transition duration-300" aria-label="WhatsApp">
+                            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M3 21l1.65-3.8a9 9 0 1 1 3.4 2.9L3 21"></path>
+                                <path d="M9 10a.5.5 0 0 0 1 0V9a.5.5 0 0 0-1 0v1a5 5 0 0 0 5 5h1a.5.5 0 0 0 0-1h-1a.5.5 0 0 0 0 1"></path>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="border-t border-gray-200 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
+                <p class="text-gray-400 text-sm">
+                    &copy; 2026 BinaUsaha. Hak Cipta Dilindungi Undang-Undang.
+                </p>
+                <div class="flex gap-6">
+                    <a href="#" class="text-gray-400 hover:text-secondary text-sm transition">Syarat & Ketentuan</a>
+                    <a href="#" class="text-gray-400 hover:text-secondary text-sm transition">Kebijakan Privasi</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Initialize Lucide Icons
+        lucide.createIcons();
+
+        // Navbar scroll effect
+        window.addEventListener('scroll', () => {
+            const nav = document.getElementById('navbar');
+            if (window.scrollY > 20) {
+                nav.classList.add('shadow-sm');
+                nav.classList.replace('bg-white/80', 'bg-white/95');
+            } else {
+                nav.classList.remove('shadow-sm');
+                nav.classList.replace('bg-white/95', 'bg-white/80');
+            }
+        });
+
+        // Mobile Menu Logic (Bottom Sheet)
+        const openBtn = document.getElementById('openMobileMenuBtn');
+        const closeBtn = document.getElementById('closeMobileMenu');
+        const mobileMenu = document.getElementById('mobileMenu');
+        const backdrop = document.getElementById('mobileMenuBackdrop');
+        const sheet = document.getElementById('mobileMenuSheet');
+        const mobileLinks = document.querySelectorAll('.mobile-link');
+
+        function openMenu() {
+            mobileMenu.classList.remove('pointer-events-none');
+            backdrop.classList.remove('opacity-0');
+            sheet.classList.remove('translate-y-full');
+            document.body.style.overflow = 'hidden'; 
+            lucide.createIcons();
+        }
+
+        function closeMenu() {
+            backdrop.classList.add('opacity-0');
+            sheet.classList.add('translate-y-full');
+            setTimeout(() => {
+                mobileMenu.classList.add('pointer-events-none');
+                document.body.style.overflow = ''; 
+            }, 300); 
+        }
+
+        openBtn.addEventListener('click', openMenu);
+        closeBtn.addEventListener('click', closeMenu);
+        backdrop.addEventListener('click', closeMenu);
+        
+        mobileLinks.forEach(link => {
+            link.addEventListener('click', closeMenu);
+        });
+    </script>
+</body>
+</html>

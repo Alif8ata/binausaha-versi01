@@ -1,0 +1,717 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BinaUsaha - Platform Digital UMKM Indonesia</title>
+    <meta name="description" content="BinaUsaha membantu UMKM mengurus legalitas, website, dan sistem kasir dalam satu platform. Konsultasi gratis, mulai sekarang.">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#0C79E8',
+                        primaryHover: '#0a65c2',
+                        secondary: '#0F172A',
+                        bgsubtle: '#EFF6FF',
+                        bordercolor: '#E5E7EB',
+                        success: '#16A34A',
+                        warning: '#F59E0B',
+                        danger: '#EF4444',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        heading: ['Plus Jakarta Sans', 'sans-serif'],
+                    },
+                    boxShadow: {
+                        'soft': '0 8px 24px rgba(15,23,42,0.06)',
+                        'float': '0 16px 40px rgba(15,23,42,0.12)',
+                    },
+                    animation: {
+                        'float': 'floating 3s ease-in-out infinite',
+                        'blob': 'blob 7s infinite',
+                    },
+                    keyframes: {
+                        floating: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-10px)' },
+                        },
+                        blob: {
+                            '0%': { transform: 'translate(0px, 0px) scale(1)' },
+                            '33%': { transform: 'translate(30px, -50px) scale(1.1)' },
+                            '66%': { transform: 'translate(-20px, 20px) scale(0.9)' },
+                            '100%': { transform: 'translate(0px, 0px) scale(1)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        /* Base styles */
+        body { font-family: 'Inter', sans-serif; color: #0F172A; }
+        h1, h2, h3, h4, h5, h6 { font-family: 'Plus Jakarta Sans', sans-serif; }
+        
+        /* Glassmorphism utility */
+        .glass {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+        }
+
+        /* Smooth scroll */
+        html { scroll-behavior: smooth; }
+        
+        /* Hide scrollbar for clean UI */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+
+        /* Flowing Line Animations */
+        .flow-line-x { animation: flowX 3s linear infinite; }
+        .flow-line-y { animation: flowY 3s linear infinite; }
+        @keyframes flowX {
+            0% { left: -30%; }
+            100% { left: 100%; }
+        }
+        @keyframes flowY {
+            0% { top: -30%; }
+            100% { top: 100%; }
+        }
+    </style>
+</head>
+<body class="bg-white antialiased">
+
+    <!-- Navbar -->
+    <nav id="navbar" class="fixed w-full z-50 transition-all duration-300 bg-white/80 backdrop-blur-md border-b border-gray-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <!-- Logo -->
+                <div class="flex-shrink-0 flex items-center gap-2 cursor-pointer">
+                    <div class="w-10 h-10 bg-primary rounded-xl flex items-center justify-center text-white font-heading font-bold text-xl shadow-soft">
+                        B
+                    </div>
+                    <span class="font-heading font-bold text-xl text-secondary">BinaUsaha</span>
+                </div>
+                
+                <!-- Desktop Menu -->
+                <div class="hidden md:flex space-x-8">
+                    <a href="#" class="text-gray-600 hover:text-primary transition font-medium">Beranda</a>
+                    <a href="#solusi" class="text-gray-600 hover:text-primary transition font-medium">Solusi</a>
+                    <a href="#produk" class="text-gray-600 hover:text-primary transition font-medium">Produk</a>
+                    <a href="#cara-kerja" class="text-gray-600 hover:text-primary transition font-medium">Cara Kerja</a>
+                    <a href="#artikel" class="text-gray-600 hover:text-primary transition font-medium">Artikel</a>
+                    <a href="https://rajakas.id" target="_blank" class="text-gray-600 hover:text-primary transition font-medium">RajaKas.id</a>
+                </div>
+                
+                <!-- CTA Button -->
+                <div class="hidden md:flex">
+                    <a href="#konsultasi" class="bg-primary hover:bg-primaryHover text-white px-6 py-2.5 rounded-lg font-medium transition duration-300 shadow-soft hover:shadow-float">
+                        Konsultasi Gratis
+                    </a>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <div class="md:hidden flex items-center">
+                    <button class="text-gray-600 focus:outline-none">
+                        <i data-lucide="menu" class="w-6 h-6"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="relative pt-32 pb-20 lg:pt-40 lg:pb-28 overflow-hidden min-h-screen flex items-center bg-gradient-to-b from-bgsubtle to-white">
+        <!-- Background Blobs -->
+        <div class="absolute top-0 left-10 w-72 h-72 bg-blue-200 rounded-full mix-blend-multiply filter blur-2xl opacity-70 animate-blob"></div>
+        <div class="absolute top-0 right-10 w-72 h-72 bg-blue-300 rounded-full mix-blend-multiply filter blur-2xl opacity-70 animate-blob animation-delay-2000"></div>
+        <div class="absolute -bottom-8 left-20 w-72 h-72 bg-blue-100 rounded-full mix-blend-multiply filter blur-2xl opacity-70 animate-blob animation-delay-4000"></div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                
+                <!-- Hero Content -->
+                <div class="text-left space-y-6">
+                    <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-blue-100 text-primary font-medium text-sm border border-blue-200">
+                        <i data-lucide="sparkles" class="w-4 h-4"></i>
+                        Platform Digital UMKM Indonesia
+                    </div>
+                    <h1 class="text-4xl md:text-5xl lg:text-6xl font-heading font-extrabold text-secondary leading-tight">
+                        Bangun Bisnis Lebih <span class="text-primary">Mudah</span> Bersama BinaUsaha
+                    </h1>
+                    <p class="text-lg text-gray-600 max-w-lg leading-relaxed">
+                        Mulai dari legalitas, website, branding, sistem kasir, hingga pengembangan bisnis. Semua dalam satu platform yang terintegrasi.
+                    </p>
+                    <div class="flex flex-col sm:flex-row gap-4 pt-4">
+                        <a href="#konsultasi" class="bg-primary hover:bg-primaryHover text-white px-8 py-3.5 rounded-xl font-medium text-center transition duration-300 shadow-soft hover:shadow-float flex justify-center items-center gap-2">
+                            Mulai Konsultasi
+                            <i data-lucide="arrow-right" class="w-5 h-5"></i>
+                        </a>
+                        <a href="#solusi" class="bg-white hover:bg-gray-50 text-secondary border border-bordercolor px-8 py-3.5 rounded-xl font-medium text-center transition duration-300 flex justify-center items-center">
+                            Lihat Solusi
+                        </a>
+                    </div>
+                    <div class="flex items-center gap-4 pt-6 text-sm text-gray-500">
+                        <div class="flex -space-x-2">
+                            <img class="w-8 h-8 rounded-full border-2 border-white" src="https://placehold.co/100x100/e2e8f0/64748b?text=U1" alt="User">
+                            <img class="w-8 h-8 rounded-full border-2 border-white" src="https://placehold.co/100x100/cbd5e1/475569?text=U2" alt="User">
+                            <img class="w-8 h-8 rounded-full border-2 border-white" src="https://placehold.co/100x100/94a3b8/334155?text=U3" alt="User">
+                        </div>
+                        <p>Dipercaya oleh <span class="font-bold text-secondary">500+</span> UMKM Indonesia</p>
+                    </div>
+                </div>
+
+                <!-- Hero Image/Mockup -->
+                <div class="relative w-full h-[500px] rounded-3xl p-4 animate-float lg:block hidden">
+                    <!-- Glass Dashboard Mockup (Modern SaaS Analytics Style) -->
+                    <div class="glass w-full h-full rounded-2xl shadow-float flex flex-col relative overflow-hidden border border-white/70 bg-white/40">
+                        
+                        <!-- Mockup App Header -->
+                        <div class="flex justify-between items-center p-4 border-b border-white/50 bg-white/40 backdrop-blur-sm">
+                            <div class="flex items-center gap-3">
+                                <div class="w-8 h-8 rounded-xl bg-gradient-to-br from-primary to-blue-600 flex items-center justify-center text-white shadow-md">
+                                    <i data-lucide="bar-chart-2" class="w-4 h-4"></i>
+                                </div>
+                                <div>
+                                    <h3 class="font-heading font-bold text-sm text-secondary leading-none mb-1">RajaKas Analytics</h3>
+                                    <p class="text-[10px] text-gray-500 font-medium">Kopi Senja Nusantara</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <div class="px-2 py-1.5 bg-white/80 rounded-lg text-[10px] font-medium text-gray-600 border border-gray-100 flex items-center gap-1.5 shadow-sm">
+                                    <i data-lucide="calendar" class="w-3 h-3 text-gray-400"></i> 30 Hari Terakhir
+                                    <i data-lucide="chevron-down" class="w-3 h-3 text-gray-400"></i>
+                                </div>
+                                <div class="w-7 h-7 rounded-full bg-gray-200 border-2 border-white overflow-hidden shadow-sm">
+                                     <img src="https://placehold.co/100x100/e2e8f0/64748b?text=KS" alt="User" class="w-full h-full object-cover">
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Mockup Body -->
+                        <div class="p-4 flex-1 flex flex-col gap-4 overflow-hidden bg-gradient-to-b from-white/20 to-transparent">
+                            <!-- KPI Cards Row -->
+                            <div class="grid grid-cols-2 gap-3">
+                                <!-- Card 1: Revenue -->
+                                <div class="bg-white/90 backdrop-blur-md rounded-xl p-3 border border-white/60 shadow-sm group hover:border-blue-200 transition-colors">
+                                    <div class="flex justify-between items-start mb-2">
+                                        <p class="text-[10px] font-medium text-gray-500">Total Pendapatan</p>
+                                        <div class="p-1 bg-blue-50 rounded text-primary">
+                                            <i data-lucide="wallet" class="w-3 h-3"></i>
+                                        </div>
+                                    </div>
+                                    <div class="flex justify-between items-end">
+                                        <h4 class="font-heading font-bold text-xl text-secondary tracking-tight">Rp 24.5M</h4>
+                                        <span class="text-[9px] font-semibold text-success flex items-center gap-0.5 bg-green-50 px-1.5 py-0.5 rounded-full border border-green-100">
+                                            <i data-lucide="trending-up" class="w-2.5 h-2.5"></i> +12.5%
+                                        </span>
+                                    </div>
+                                </div>
+                                
+                                <!-- Card 2: Orders -->
+                                <div class="bg-white/90 backdrop-blur-md rounded-xl p-3 border border-white/60 shadow-sm group hover:border-blue-200 transition-colors">
+                                    <div class="flex justify-between items-start mb-2">
+                                        <p class="text-[10px] font-medium text-gray-500">Pesanan Sukses</p>
+                                        <div class="p-1 bg-purple-50 rounded text-purple-500">
+                                            <i data-lucide="shopping-bag" class="w-3 h-3"></i>
+                                        </div>
+                                    </div>
+                                    <div class="flex justify-between items-end">
+                                        <h4 class="font-heading font-bold text-xl text-secondary tracking-tight">842</h4>
+                                        <span class="text-[9px] font-semibold text-success flex items-center gap-0.5 bg-green-50 px-1.5 py-0.5 rounded-full border border-green-100">
+                                            <i data-lucide="trending-up" class="w-2.5 h-2.5"></i> +8.2%
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Main Chart Area -->
+                            <div class="bg-white/90 backdrop-blur-md rounded-xl p-4 border border-white/60 shadow-sm flex-1 flex flex-col relative group">
+                                <div class="flex justify-between items-center mb-4">
+                                    <div>
+                                        <span class="text-xs font-semibold text-secondary block">Grafik Penjualan</span>
+                                        <span class="text-[9px] text-gray-400">Berdasarkan data sinkronisasi kasir</span>
+                                    </div>
+                                    <div class="flex gap-1">
+                                        <div class="w-1.5 h-1.5 rounded-full bg-gray-300"></div>
+                                        <div class="w-1.5 h-1.5 rounded-full bg-gray-300"></div>
+                                        <div class="w-1.5 h-1.5 rounded-full bg-gray-300"></div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Modern CSS Bar Chart Visualization -->
+                                <div class="flex-1 relative w-full flex items-end justify-between gap-1.5 mt-2">
+                                     <!-- Y-Axis Grid lines -->
+                                     <div class="absolute inset-0 flex flex-col justify-between py-2 z-0">
+                                         <div class="w-full border-b border-dashed border-gray-200/70"></div>
+                                         <div class="w-full border-b border-dashed border-gray-200/70"></div>
+                                         <div class="w-full border-b border-dashed border-gray-200/70"></div>
+                                         <div class="w-full border-b border-dashed border-gray-200/70"></div>
+                                     </div>
+                                     
+                                     <!-- Graph Bars -->
+                                     <div class="w-full h-full flex items-end justify-between gap-2 z-10 px-1 pb-1">
+                                         <div class="w-full bg-blue-100 rounded-t-md h-[30%] hover:bg-blue-300 transition-all duration-300 cursor-pointer"></div>
+                                         <div class="w-full bg-blue-100 rounded-t-md h-[45%] hover:bg-blue-300 transition-all duration-300 cursor-pointer"></div>
+                                         <div class="w-full bg-blue-200 rounded-t-md h-[40%] hover:bg-blue-300 transition-all duration-300 cursor-pointer"></div>
+                                         <div class="w-full bg-blue-300 rounded-t-md h-[65%] hover:bg-blue-400 transition-all duration-300 cursor-pointer"></div>
+                                         <div class="w-full bg-blue-400 rounded-t-md h-[55%] hover:bg-blue-500 transition-all duration-300 cursor-pointer"></div>
+                                         <div class="w-full bg-gradient-to-t from-primary to-blue-400 rounded-t-md h-[95%] relative shadow-[0_0_15px_rgba(12,121,232,0.4)] cursor-pointer scale-105 origin-bottom">
+                                             <!-- Tooltip (Visible on default to show off UI) -->
+                                             <div class="absolute -top-9 left-1/2 -translate-x-1/2 bg-secondary text-white text-[10px] font-semibold px-2.5 py-1.5 rounded-lg whitespace-nowrap shadow-lg animate-bounce">
+                                                 Rp 4.2M
+                                                 <div class="absolute -bottom-1 left-1/2 -translate-x-1/2 w-2 h-2 bg-secondary rotate-45"></div>
+                                             </div>
+                                         </div>
+                                         <div class="w-full bg-blue-200 rounded-t-md h-[70%] hover:bg-blue-300 transition-all duration-300 cursor-pointer"></div>
+                                     </div>
+                                </div>
+                                <!-- X-Axis Labels -->
+                                <div class="flex justify-between w-full text-[8px] text-gray-400 mt-2 font-medium px-1">
+                                    <span>Sen</span><span>Sel</span><span>Rab</span><span>Kam</span><span>Jum</span><span class="text-primary font-bold">Sab</span><span>Min</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Problem Section -->
+    <section class="py-20 bg-white" id="problem">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <h2 class="text-3xl md:text-4xl font-heading font-bold text-secondary mb-4">Mengapa Banyak UMKM Sulit Berkembang?</h2>
+                <p class="text-gray-600 text-lg">Tanpa fondasi dan sistem yang tepat, semangat saja tidak cukup untuk membesarkan skala bisnis Anda.</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Card 1 -->
+                <div class="bg-bgsubtle p-6 rounded-2xl border border-blue-100 transition hover:-translate-y-1 hover:shadow-soft group">
+                    <div class="w-12 h-12 bg-white rounded-xl flex items-center justify-center text-primary shadow-sm mb-5 group-hover:bg-primary group-hover:text-white transition">
+                        <i data-lucide="file-x-2" class="w-6 h-6"></i>
+                    </div>
+                    <h3 class="font-heading font-semibold text-lg mb-3 text-secondary">Tidak Punya Legalitas</h3>
+                    <p class="text-gray-600 text-sm leading-relaxed">Sulit mengakses pembiayaan dan kerja sama karena belum berbadan usaha resmi.</p>
+                </div>
+                <!-- Card 2 -->
+                <div class="bg-bgsubtle p-6 rounded-2xl border border-blue-100 transition hover:-translate-y-1 hover:shadow-soft group">
+                    <div class="w-12 h-12 bg-white rounded-xl flex items-center justify-center text-primary shadow-sm mb-5 group-hover:bg-primary group-hover:text-white transition">
+                        <i data-lucide="wifi-off" class="w-6 h-6"></i>
+                    </div>
+                    <h3 class="font-heading font-semibold text-lg mb-3 text-secondary">Tidak Punya Website</h3>
+                    <p class="text-gray-600 text-sm leading-relaxed">Calon pelanggan kesulitan menemukan bisnis Anda secara online di era digital ini.</p>
+                </div>
+                <!-- Card 3 -->
+                <div class="bg-bgsubtle p-6 rounded-2xl border border-blue-100 transition hover:-translate-y-1 hover:shadow-soft group">
+                    <div class="w-12 h-12 bg-white rounded-xl flex items-center justify-center text-primary shadow-sm mb-5 group-hover:bg-primary group-hover:text-white transition">
+                        <i data-lucide="trending-down" class="w-6 h-6"></i>
+                    </div>
+                    <h3 class="font-heading font-semibold text-lg mb-3 text-secondary">Penjualan Belum Stabil</h3>
+                    <p class="text-gray-600 text-sm leading-relaxed">Tanpa strategi yang terarah, omzet naik turun tanpa pola pemasaran yang jelas.</p>
+                </div>
+                <!-- Card 4 -->
+                <div class="bg-bgsubtle p-6 rounded-2xl border border-blue-100 transition hover:-translate-y-1 hover:shadow-soft group">
+                    <div class="w-12 h-12 bg-white rounded-xl flex items-center justify-center text-primary shadow-sm mb-5 group-hover:bg-primary group-hover:text-white transition">
+                        <i data-lucide="calculator" class="w-6 h-6"></i>
+                    </div>
+                    <h3 class="font-heading font-semibold text-lg mb-3 text-secondary">Operasional Manual</h3>
+                    <p class="text-gray-600 text-sm leading-relaxed">Pencatatan kasir yang tidak tersistem membuka celah kesalahan dan kebocoran dana.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Framework BISA Section -->
+    <section class="py-24 bg-secondary text-white relative overflow-hidden" id="framework">
+        <div class="absolute top-0 right-0 w-96 h-96 bg-primary opacity-20 rounded-full mix-blend-screen filter blur-3xl"></div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-heading font-bold mb-4">Metodologi <span class="text-primary">BISA</span></h2>
+                <p class="text-gray-400 text-lg max-w-2xl mx-auto">Pendekatan bertahap BinaUsaha untuk mendampingi UMKM dari langkah awal hingga siap melesat.</p>
+            </div>
+
+            <div class="relative max-w-5xl mx-auto mt-12">
+                <!-- Desktop Connecting Line (Horizontal) -->
+                <div class="hidden md:block absolute top-[11px] left-[5%] right-[5%] h-[2px] bg-white/10 rounded-full overflow-hidden">
+                    <div class="absolute top-0 w-1/3 h-full bg-gradient-to-r from-transparent via-primary to-transparent flow-line-x shadow-[0_0_10px_#0C79E8]"></div>
+                </div>
+                
+                <!-- Mobile Connecting Line (Vertical) -->
+                <div class="md:hidden absolute top-[5%] bottom-[5%] left-[11px] w-[2px] bg-white/10 rounded-full overflow-hidden">
+                    <div class="absolute left-0 h-1/3 w-full bg-gradient-to-b from-transparent via-primary to-transparent flow-line-y shadow-[0_0_10px_#0C79E8]"></div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-12 md:gap-6 relative z-10">
+                    <!-- Step B -->
+                    <div class="relative flex flex-col md:block items-start gap-4 pl-10 md:pl-0 group cursor-default">
+                        <div class="text-7xl font-heading font-extrabold text-white/5 absolute -top-4 md:-top-12 left-10 md:left-2 transition-all duration-300 group-hover:scale-110 group-hover:text-white/10">B</div>
+                        <!-- Node with Pulse -->
+                        <div class="absolute left-0 md:relative md:left-0 md:mb-6 mt-1 md:mt-0 w-6 h-6 rounded-full bg-secondary border-4 border-primary shadow-[0_0_15px_rgba(12,121,232,0.8)] z-10 transition-transform duration-300 group-hover:scale-125">
+                            <div class="absolute inset-0 bg-primary rounded-full animate-ping opacity-75"></div>
+                        </div>
+                        
+                        <div>
+                            <h3 class="font-heading font-bold text-xl mb-2 text-white group-hover:text-primary transition-colors">Bangun Usaha</h3>
+                            <p class="text-gray-400 text-sm leading-relaxed">Membentuk fondasi bisnis: perizinan, legalitas (NIB, Halal), branding, dan identitas usaha.</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Step I -->
+                    <div class="relative flex flex-col md:block items-start gap-4 pl-10 md:pl-0 group cursor-default">
+                        <div class="text-7xl font-heading font-extrabold text-white/5 absolute -top-4 md:-top-12 left-10 md:left-2 transition-all duration-300 group-hover:scale-110 group-hover:text-white/10">I</div>
+                        <!-- Node with Pulse -->
+                        <div class="absolute left-0 md:relative md:left-0 md:mb-6 mt-1 md:mt-0 w-6 h-6 rounded-full bg-secondary border-4 border-blue-500 shadow-[0_0_15px_rgba(59,130,246,0.6)] z-10 transition-transform duration-300 group-hover:scale-125">
+                            <div class="absolute inset-0 bg-blue-500 rounded-full animate-ping opacity-40" style="animation-delay: 0.5s"></div>
+                        </div>
+                        
+                        <div>
+                            <h3 class="font-heading font-bold text-xl mb-2 text-white group-hover:text-blue-400 transition-colors">Integrasi Digital</h3>
+                            <p class="text-gray-400 text-sm leading-relaxed">Menghubungkan bisnis dengan website profesional, sistem kasir (RajaKas), dan alat digital.</p>
+                        </div>
+                    </div>
+
+                    <!-- Step S -->
+                    <div class="relative flex flex-col md:block items-start gap-4 pl-10 md:pl-0 group cursor-default">
+                        <div class="text-7xl font-heading font-extrabold text-white/5 absolute -top-4 md:-top-12 left-10 md:left-2 transition-all duration-300 group-hover:scale-110 group-hover:text-white/10">S</div>
+                        <!-- Node with Pulse -->
+                        <div class="absolute left-0 md:relative md:left-0 md:mb-6 mt-1 md:mt-0 w-6 h-6 rounded-full bg-secondary border-4 border-blue-300 shadow-[0_0_15px_rgba(147,197,253,0.4)] z-10 transition-transform duration-300 group-hover:scale-125">
+                            <div class="absolute inset-0 bg-blue-300 rounded-full animate-ping opacity-30" style="animation-delay: 1s"></div>
+                        </div>
+                        
+                        <div>
+                            <h3 class="font-heading font-bold text-xl mb-2 text-white group-hover:text-blue-300 transition-colors">Scale Up</h3>
+                            <p class="text-gray-400 text-sm leading-relaxed">Mengembangkan jangkauan pasar dan meningkatkan kapasitas operasional produksi.</p>
+                        </div>
+                    </div>
+
+                    <!-- Step A -->
+                    <div class="relative flex flex-col md:block items-start gap-4 pl-10 md:pl-0 group cursor-default">
+                        <div class="text-7xl font-heading font-extrabold text-white/5 absolute -top-4 md:-top-12 left-10 md:left-2 transition-all duration-300 group-hover:scale-110 group-hover:text-white/10">A</div>
+                        <!-- Node with Pulse -->
+                        <div class="absolute left-0 md:relative md:left-0 md:mb-6 mt-1 md:mt-0 w-6 h-6 rounded-full bg-secondary border-4 border-white/40 shadow-[0_0_15px_rgba(255,255,255,0.2)] z-10 transition-transform duration-300 group-hover:scale-125">
+                            <div class="absolute inset-0 bg-white rounded-full animate-ping opacity-20" style="animation-delay: 1.5s"></div>
+                        </div>
+                        
+                        <div>
+                            <h3 class="font-heading font-bold text-xl mb-2 text-white group-hover:text-gray-300 transition-colors">Akselerasi</h3>
+                            <p class="text-gray-400 text-sm leading-relaxed">Mempercepat pertumbuhan melalui strategi marketing, pendampingan lanjutan, & pendanaan.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Solusi Section -->
+    <section class="py-24 bg-bgsubtle relative" id="solusi">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <span class="text-primary font-semibold tracking-wider uppercase text-sm mb-2 block">Solusi Terpadu</span>
+                <h2 class="text-3xl md:text-4xl font-heading font-bold text-secondary mb-4">Semua Yang Dibutuhkan UMKM Dalam Satu Platform</h2>
+                <p class="text-gray-600 text-lg">Satu ekosistem. Tidak perlu lagi memakai aplikasi yang terpisah-pisah dan membingungkan.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Solusi 1 -->
+                <div class="bg-white rounded-2xl p-8 shadow-sm border border-bordercolor hover:shadow-float transition duration-300 group cursor-pointer">
+                    <div class="w-14 h-14 bg-blue-50 rounded-2xl flex items-center justify-center text-primary mb-6 group-hover:scale-110 transition duration-300">
+                        <i data-lucide="layout-template" class="w-7 h-7"></i>
+                    </div>
+                    <h3 class="font-heading font-bold text-xl text-secondary mb-3">Website UMKM</h3>
+                    <p class="text-gray-600 mb-6 text-sm">Pembuatan website bisnis profesional, modern, dan siap pakai untuk menjangkau pelanggan secara online.</p>
+                    <a href="#" class="text-primary font-medium text-sm flex items-center gap-1 group-hover:gap-2 transition-all">Selengkapnya <i data-lucide="arrow-right" class="w-4 h-4"></i></a>
+                </div>
+
+                <!-- Solusi 2 -->
+                <div class="bg-white rounded-2xl p-8 shadow-sm border border-bordercolor hover:shadow-float transition duration-300 group cursor-pointer">
+                    <div class="w-14 h-14 bg-green-50 rounded-2xl flex items-center justify-center text-success mb-6 group-hover:scale-110 transition duration-300">
+                        <i data-lucide="stamp" class="w-7 h-7"></i>
+                    </div>
+                    <h3 class="font-heading font-bold text-xl text-secondary mb-3">Legalitas (NIB & Halal)</h3>
+                    <p class="text-gray-600 mb-6 text-sm">Pengurusan izin usaha, NIB, dan dokumen legal UMKM lainnya dengan proses yang transparan.</p>
+                    <a href="#" class="text-primary font-medium text-sm flex items-center gap-1 group-hover:gap-2 transition-all">Selengkapnya <i data-lucide="arrow-right" class="w-4 h-4"></i></a>
+                </div>
+
+                <!-- Solusi 3 -->
+                <div class="bg-white rounded-2xl p-8 shadow-sm border border-bordercolor hover:shadow-float transition duration-300 group cursor-pointer">
+                    <div class="w-14 h-14 bg-purple-50 rounded-2xl flex items-center justify-center text-purple-600 mb-6 group-hover:scale-110 transition duration-300">
+                        <i data-lucide="store" class="w-7 h-7"></i>
+                    </div>
+                    <h3 class="font-heading font-bold text-xl text-secondary mb-3">RajaKas (POS & Kasir)</h3>
+                    <p class="text-gray-600 mb-6 text-sm">Sistem kasir digital pintar untuk mencatat transaksi harian, terhubung otomatis ke laporan.</p>
+                    <a href="#" class="text-primary font-medium text-sm flex items-center gap-1 group-hover:gap-2 transition-all">Selengkapnya <i data-lucide="arrow-right" class="w-4 h-4"></i></a>
+                </div>
+
+                <!-- Solusi 4 -->
+                <div class="bg-white rounded-2xl p-8 shadow-sm border border-bordercolor hover:shadow-float transition duration-300 group cursor-pointer">
+                    <div class="w-14 h-14 bg-orange-50 rounded-2xl flex items-center justify-center text-orange-500 mb-6 group-hover:scale-110 transition duration-300">
+                        <i data-lucide="pie-chart" class="w-7 h-7"></i>
+                    </div>
+                    <h3 class="font-heading font-bold text-xl text-secondary mb-3">Laporan Keuangan</h3>
+                    <p class="text-gray-600 mb-6 text-sm">Pencatatan dan pelaporan keuangan usaha yang rapi, akurat, dan mudah dipahami oleh non-akuntan.</p>
+                    <a href="#" class="text-primary font-medium text-sm flex items-center gap-1 group-hover:gap-2 transition-all">Selengkapnya <i data-lucide="arrow-right" class="w-4 h-4"></i></a>
+                </div>
+
+                <!-- Solusi 5 -->
+                <div class="bg-white rounded-2xl p-8 shadow-sm border border-bordercolor hover:shadow-float transition duration-300 group cursor-pointer">
+                    <div class="w-14 h-14 bg-pink-50 rounded-2xl flex items-center justify-center text-pink-500 mb-6 group-hover:scale-110 transition duration-300">
+                        <i data-lucide="palette" class="w-7 h-7"></i>
+                    </div>
+                    <h3 class="font-heading font-bold text-xl text-secondary mb-3">Branding & Marketing</h3>
+                    <p class="text-gray-600 mb-6 text-sm">Pengembangan identitas visual, citra usaha, logo, kemasan, hingga strategi pemasaran digital.</p>
+                    <a href="#" class="text-primary font-medium text-sm flex items-center gap-1 group-hover:gap-2 transition-all">Selengkapnya <i data-lucide="arrow-right" class="w-4 h-4"></i></a>
+                </div>
+
+                <!-- Solusi 6 -->
+                <div class="bg-white rounded-2xl p-8 shadow-sm border border-bordercolor hover:shadow-float transition duration-300 group cursor-pointer">
+                    <div class="w-14 h-14 bg-teal-50 rounded-2xl flex items-center justify-center text-teal-600 mb-6 group-hover:scale-110 transition duration-300">
+                        <i data-lucide="users" class="w-7 h-7"></i>
+                    </div>
+                    <h3 class="font-heading font-bold text-xl text-secondary mb-3">Pendampingan Ahli</h3>
+                    <p class="text-gray-600 mb-6 text-sm">Konsultasi manusia. Bimbingan bisnis dari tim ahli kami yang siap memandu pertumbuhan Anda.</p>
+                    <a href="#" class="text-primary font-medium text-sm flex items-center gap-1 group-hover:gap-2 transition-all">Selengkapnya <i data-lucide="arrow-right" class="w-4 h-4"></i></a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Cara Kerja Section -->
+    <section class="py-24 bg-white" id="cara-kerja">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-heading font-bold text-secondary mb-4">Cara Kerja Kami</h2>
+                <p class="text-gray-600 text-lg">Proses sederhana, transparan, dan berorientasi pada hasil.</p>
+            </div>
+
+            <div class="relative max-w-4xl mx-auto">
+                <!-- Connecting Line (Desktop) -->
+                <div class="hidden md:block absolute top-1/2 left-0 w-full h-0.5 bg-blue-100 -translate-y-1/2 z-0"></div>
+
+                <div class="grid grid-cols-1 md:grid-cols-5 gap-8 relative z-10">
+                    <!-- Step 1 -->
+                    <div class="text-center">
+                        <div class="w-16 h-16 mx-auto bg-white border-4 border-primary rounded-full flex items-center justify-center text-xl font-heading font-bold text-primary mb-4 shadow-sm">1</div>
+                        <h4 class="font-heading font-bold text-secondary">Konsultasi</h4>
+                        <p class="text-xs text-gray-500 mt-2">Ceritakan kondisi bisnis Anda</p>
+                    </div>
+                    <!-- Step 2 -->
+                    <div class="text-center">
+                        <div class="w-16 h-16 mx-auto bg-white border-4 border-blue-200 rounded-full flex items-center justify-center text-xl font-heading font-bold text-blue-400 mb-4 shadow-sm">2</div>
+                        <h4 class="font-heading font-bold text-secondary">Analisa</h4>
+                        <p class="text-xs text-gray-500 mt-2">Tim ahli memetakan kebutuhan</p>
+                    </div>
+                    <!-- Step 3 -->
+                    <div class="text-center">
+                        <div class="w-16 h-16 mx-auto bg-white border-4 border-blue-200 rounded-full flex items-center justify-center text-xl font-heading font-bold text-blue-400 mb-4 shadow-sm">3</div>
+                        <h4 class="font-heading font-bold text-secondary">Rekomendasi</h4>
+                        <p class="text-xs text-gray-500 mt-2">Solusi tepat sasaran untuk Anda</p>
+                    </div>
+                    <!-- Step 4 -->
+                    <div class="text-center">
+                        <div class="w-16 h-16 mx-auto bg-white border-4 border-blue-200 rounded-full flex items-center justify-center text-xl font-heading font-bold text-blue-400 mb-4 shadow-sm">4</div>
+                        <h4 class="font-heading font-bold text-secondary">Implementasi</h4>
+                        <p class="text-xs text-gray-500 mt-2">Penerapan sistem & dokumen</p>
+                    </div>
+                    <!-- Step 5 -->
+                    <div class="text-center">
+                        <div class="w-16 h-16 mx-auto bg-white border-4 border-blue-200 rounded-full flex items-center justify-center text-xl font-heading font-bold text-blue-400 mb-4 shadow-sm">5</div>
+                        <h4 class="font-heading font-bold text-secondary">Pendampingan</h4>
+                        <p class="text-xs text-gray-500 mt-2">Dukungan teknis berkelanjutan</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Statistik Section -->
+    <section class="py-16 bg-primary text-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center divide-x divide-white/20">
+                <div class="px-4">
+                    <div class="text-4xl lg:text-5xl font-heading font-extrabold mb-2">500+</div>
+                    <div class="text-blue-100 font-medium">UMKM Bergabung</div>
+                </div>
+                <div class="px-4">
+                    <div class="text-4xl lg:text-5xl font-heading font-extrabold mb-2">1000+</div>
+                    <div class="text-blue-100 font-medium">Konsultasi Selesai</div>
+                </div>
+                <div class="px-4">
+                    <div class="text-4xl lg:text-5xl font-heading font-extrabold mb-2">25+</div>
+                    <div class="text-blue-100 font-medium">Mitra Strategis</div>
+                </div>
+                <div class="px-4">
+                    <div class="text-4xl lg:text-5xl font-heading font-extrabold mb-2">98%</div>
+                    <div class="text-blue-100 font-medium">Kepuasan Pelanggan</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="py-24 bg-white" id="konsultasi">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="bg-secondary rounded-3xl p-10 md:p-16 text-center relative overflow-hidden shadow-float">
+                <!-- Decorative Elements -->
+                <div class="absolute top-0 right-0 w-64 h-64 bg-primary rounded-full mix-blend-screen filter blur-3xl opacity-50 -translate-y-1/2 translate-x-1/3"></div>
+                <div class="absolute bottom-0 left-0 w-64 h-64 bg-blue-500 rounded-full mix-blend-screen filter blur-3xl opacity-30 translate-y-1/2 -translate-x-1/3"></div>
+                
+                <div class="relative z-10">
+                    <h2 class="text-3xl md:text-5xl font-heading font-bold text-white mb-6">Siap Mengembangkan Bisnis Anda?</h2>
+                    <p class="text-gray-300 text-lg max-w-2xl mx-auto mb-10">
+                        Konsultasikan kebutuhan usaha Anda secara gratis bersama tim BinaUsaha. Tidak ada komitmen di awal, kami hadir untuk mendengar dan memberi solusi.
+                    </p>
+                    <div class="flex flex-col sm:flex-row justify-center gap-4">
+                        <button class="bg-primary hover:bg-primaryHover text-white px-8 py-4 rounded-xl font-bold text-lg transition duration-300 shadow-soft flex justify-center items-center gap-2">
+                            Mulai Konsultasi Gratis
+                            <i data-lucide="message-circle" class="w-5 h-5"></i>
+                        </button>
+                    </div>
+                    <p class="text-sm text-gray-400 mt-6">
+                        <i data-lucide="shield-check" class="w-4 h-4 inline mr-1"></i> Data dan privasi usaha Anda terjamin aman.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-50 border-t border-bordercolor pt-20 pb-10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
+                <!-- Brand Col -->
+                <div class="lg:col-span-1">
+                    <div class="flex items-center gap-2 mb-6">
+                        <div class="w-8 h-8 bg-primary rounded-lg flex items-center justify-center text-white font-heading font-bold shadow-sm">
+                            B
+                        </div>
+                        <span class="font-heading font-bold text-xl text-secondary">BinaUsaha</span>
+                    </div>
+                    <p class="text-gray-500 text-sm leading-relaxed mb-6">
+                        Platform pendampingan digital yang mengintegrasikan legalitas, website, dan sistem operasional usaha untuk UMKM Indonesia.
+                    </p>
+                    <!-- Socials -->
+                    <div class="flex gap-4">
+                        <a href="https://www.facebook.com/binausaha/" class="text-gray-400 hover:text-primary transition"><i data-lucide="facebook" class="w-5 h-5"></i></a>
+                        <a href="https://www.instagram.com/binausaha/" class="text-gray-400 hover:text-primary transition"><i data-lucide="instagram" class="w-5 h-5"></i></a>
+                        <a href="https://twitter.com/binausaha" class="text-gray-400 hover:text-primary transition"><i data-lucide="twitter" class="w-5 h-5"></i></a>
+                        <a href="https://www.linkedin.com/company/binausaha/" class="text-gray-400 hover:text-primary transition"><i data-lucide="linkedin" class="w-5 h-5"></i></a>
+                    </div>
+                </div>
+
+                <!-- Links Col 1 -->
+                <div>
+                    <h4 class="font-heading font-bold text-secondary mb-6">Produk Kami</h4>
+                    <ul class="space-y-4">
+                        <li><a href="https://www.binausaha.com/website-umkm/" class="text-gray-500 hover:text-primary text-sm transition">Website UMKM</a></li>
+                        <li><a href="https://www.binausaha.com/rajakas-pos/" class="text-gray-500 hover:text-primary text-sm transition">RajaKas (POS)</a></li>
+                        <li><a href="https://www.binausaha.com/legalitas-nib-halal/" class="text-gray-500 hover:text-primary text-sm transition">Legalitas (NIB, Halal)</a></li>
+                        <li><a href="https://www.binausaha.com/digital-marketing/" class="text-gray-500 hover:text-primary text-sm transition">Digital Marketing</a></li>
+                        <li><a href="https://www.binausaha.com/pendampingan-bisnis/" class="text-gray-500 hover:text-primary text-sm transition">Pendampingan Bisnis</a></li>
+                    </ul>
+                </div>
+
+                <!-- Links Col 2 -->
+                <div>
+                    <h4 class="font-heading font-bold text-secondary mb-6">Perusahaan</h4>
+                    <ul class="space-y-4">
+                        <li><a href="https://www.binausaha.com/tentang-kami/" class="text-gray-500 hover:text-primary text-sm transition">Tentang Kami</a></li>
+                        <li><a href="https://www.binausaha.com/cara-kerja/" class="text-gray-500 hover:text-primary text-sm transition">Cara Kerja</a></li>
+                        <li><a href="https://www.binausaha.com/artikel-edukasi/" class="text-gray-500 hover:text-primary text-sm transition">Artikel & Edukasi</a></li>
+                        <li><a href="https://www.binausaha.com/kisah-sukses/" class="text-gray-500 hover:text-primary text-sm transition">Kisah Sukses</a></li>
+                        <li><a href="https://www.binausaha.com/kontak/" class="text-gray-500 hover:text-primary text-sm transition">Kontak</a></li>
+                    </ul>
+                </div>
+
+                <!-- Contact Col -->
+                <div>
+                    <h4 class="font-heading font-bold text-secondary mb-6">Hubungi Kami</h4>
+                    <ul class="space-y-4">
+                        <li class="flex items-start gap-3 text-gray-500 text-sm">
+                            <i data-lucide="map-pin" class="w-5 h-5 text-primary flex-shrink-0"></i>
+                            <span>Jl. Arwinda Km 01 Karangtengah Kab. Cianjur, 43281</span>
+                        </li>
+                        <li class="flex items-center gap-3 text-gray-500 text-sm">
+                            <i data-lucide="mail" class="w-5 h-5 text-primary flex-shrink-0"></i>
+                            <span>hallo@binausaha.com</span>
+                        </li>
+                    </ul>
+                    
+                    <!-- Social Media Icons (Ig, YT, TikTok, WA) --> 
+                    <div class="flex items-center gap-5 mt-8">
+                        <a href="https://www.instagram.com/binausaha_com" target="_blank" class="text-gray-400 hover:text-primary transition duration-300" aria-label="Instagram">
+                            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <rect width="20" height="20" x="2" y="2" rx="5" ry="5"></rect>
+                                <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                                <line x1="17.5" x2="17.51" y1="6.5" y2="6.5"></line>
+                            </svg>
+                        </a>
+                        <a href="https://www.youtube.com/@sugihprojek" target="_blank" class="text-gray-400 hover:text-primary transition duration-300" aria-label="YouTube">
+                            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M2.5 7.1C2.5 7.1 2.5 6.3 2.8 5.6C3.1 4.9 3.6 4.4 4.3 4.1C5 3.8 12 3.8 12 3.8C12 3.8 19 3.8 19.7 4.1C20.4 4.4 20.9 4.9 21.2 5.6C21.5 6.3 21.5 7.1 21.5 7.1C21.5 7.1 21.5 9 21.5 12C21.5 15 21.5 16.9 21.5 16.9C21.5 16.9 21.5 17.7 21.2 18.4C20.9 19.1 20.4 19.6 19.7 19.9C19 20.2 12 20.2 12 20.2C12 20.2 5 20.2 4.3 19.9C3.6 19.6 3.1 19.1 2.8 18.4C2.5 17.7 2.5 16.9 2.5 16.9C2.5 16.9 2.5 15 2.5 12C2.5 9 2.5 7.1 2.5 7.1Z"></path>
+                                <path d="M10 15L15 12L10 9V15Z"></path>
+                            </svg>
+                        </a>
+                        <a href="https://www.tiktok.com/@jalansugih.id" target="_blank" class="text-gray-400 hover:text-primary transition duration-300" aria-label="TikTok">
+                            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5"></path>
+                            </svg>
+                        </a>
+                        <a href="https://wa.me/6285195979888" target="_blank" class="text-gray-400 hover:text-primary transition duration-300" aria-label="WhatsApp">
+                            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M3 21l1.65-3.8a9 9 0 1 1 3.4 2.9L3 21"></path>
+                                <path d="M9 10a.5.5 0 0 0 1 0V9a.5.5 0 0 0-1 0v1a5 5 0 0 0 5 5h1a.5.5 0 0 0 0-1h-1a.5.5 0 0 0 0 1"></path>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="border-t border-gray-200 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
+                <p class="text-gray-400 text-sm">
+                    &copy; 2026 BinaUsaha. Hak Cipta Dilindungi Undang-Undang.
+                </p>
+                <div class="flex gap-6">
+                    <a href="https://www.binausaha.com/syarat-ketentuan/" class="text-gray-400 hover:text-secondary text-sm transition">Syarat & Ketentuan</a>
+                    <a href="https://www.binausaha.com/kebijakan-privasi/" class="text-gray-400 hover:text-secondary text-sm transition">Kebijakan Privasi</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Initialize Lucide Icons
+        lucide.createIcons();
+
+        // Navbar scroll effect (Glassmorphism & Border)
+        window.addEventListener('scroll', () => {
+            const nav = document.getElementById('navbar');
+            if (window.scrollY > 20) {
+                nav.classList.add('shadow-sm');
+                nav.classList.replace('bg-white/80', 'bg-white/95');
+            } else {
+                nav.classList.remove('shadow-sm');
+                nav.classList.replace('bg-white/95', 'bg-white/80');
+            }
+        });
+    </script>
+</body>
+</html>

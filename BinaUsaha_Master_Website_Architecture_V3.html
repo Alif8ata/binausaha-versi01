@@ -1,0 +1,1106 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BinaUsaha — Master Website Architecture V3</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --primary:#1681FA;
+    --primary-dark:#0f5fc4;
+    --secondary:#0F172A;
+    --bg:#FFFFFF;
+    --light-blue:#EFF6FF;
+    --border:#E5E7EB;
+    --success:#16A34A;
+    --warning:#F59E0B;
+    --danger:#EF4444;
+    --gray:#6B7280;
+    --radius-md:8px;
+    --radius-lg:16px;
+    --radius-xl:24px;
+    --shadow-sm:0 1px 2px rgba(15,23,42,0.06);
+    --shadow-md:0 8px 24px rgba(15,23,42,0.08);
+    --shadow-lg:0 20px 50px rgba(15,23,42,0.14);
+    --sidebar-w:280px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    font-family:'Inter',sans-serif;
+    color:#1F2937;
+    background:var(--bg);
+    line-height:1.65;
+  }
+  h1,h2,h3,h4{font-family:'Plus Jakarta Sans',sans-serif;color:var(--secondary);margin:0;}
+  a{color:var(--primary);}
+  p{margin:0 0 14px;}
+  ::selection{background:var(--light-blue);color:var(--secondary);}
+
+  /* ---------- Layout shell ---------- */
+  .shell{display:flex;min-height:100vh;}
+  .sidebar{
+    width:var(--sidebar-w);
+    flex-shrink:0;
+    position:sticky;
+    top:0;
+    height:100vh;
+    overflow-y:auto;
+    background:rgba(239,246,255,0.7);
+    backdrop-filter:blur(14px);
+    -webkit-backdrop-filter:blur(14px);
+    border-right:1px solid var(--border);
+    padding:28px 20px 60px;
+  }
+  .sidebar .brand{
+    font-family:'Plus Jakarta Sans',sans-serif;
+    font-weight:800;
+    font-size:19px;
+    color:var(--primary);
+    letter-spacing:.2px;
+    margin-bottom:4px;
+  }
+  .sidebar .brand-sub{font-size:12px;color:var(--gray);margin-bottom:24px;}
+  .sidebar nav a{
+    display:block;
+    font-size:13.5px;
+    color:#334155;
+    text-decoration:none;
+    padding:7px 10px;
+    border-radius:10px;
+    margin-bottom:2px;
+    transition:background .15s ease, color .15s ease, transform .15s ease;
+  }
+  .sidebar nav a:hover{background:#fff;color:var(--primary);box-shadow:var(--shadow-sm);transform:translateX(2px);}
+  .sidebar nav a.active{background:var(--primary);color:#fff;box-shadow:var(--shadow-sm);}
+
+  .main{flex:1;min-width:0;}
+  .container{max-width:840px;margin:0 auto;padding:0 32px 40px;}
+
+  /* ---------- Cover / Hero ---------- */
+  .cover{
+    position:relative;
+    overflow:hidden;
+    background:radial-gradient(1200px 500px at 15% -10%, #1681FA22, transparent),
+               linear-gradient(150deg,#0F172A 0%, #14204a 55%, #1681FA 130%);
+    color:#fff;
+    padding:96px 40px 84px;
+    text-align:center;
+    border-radius:0 0 40px 40px;
+  }
+  .cover::before{
+    content:"";
+    position:absolute;inset:0;
+    background-image:radial-gradient(circle at 20% 30%, rgba(255,255,255,.06) 0, transparent 40%),
+                      radial-gradient(circle at 80% 70%, rgba(255,255,255,.08) 0, transparent 45%);
+    pointer-events:none;
+  }
+  .cover-eyebrow{
+    display:inline-block;
+    font-size:12.5px;
+    letter-spacing:2.5px;
+    font-weight:700;
+    color:#BFDBFE;
+    text-transform:uppercase;
+    margin-bottom:18px;
+  }
+  .cover h1{
+    font-size:44px;
+    font-weight:800;
+    letter-spacing:-.5px;
+    margin-bottom:10px;
+  }
+  .cover h2{
+    font-size:22px;
+    font-weight:600;
+    color:#E2E8F0;
+    margin-bottom:22px;
+  }
+  .cover .tagline{
+    font-size:17px;
+    font-style:italic;
+    color:#DBEAFE;
+    margin-bottom:6px;
+  }
+  .cover .platform{
+    font-size:15px;
+    font-weight:700;
+    color:#93C5FD;
+    letter-spacing:.3px;
+  }
+  .cover .meta{
+    margin-top:36px;
+    font-size:13px;
+    color:#94A3B8;
+  }
+
+  /* ---------- Reveal animation ---------- */
+  .reveal{opacity:0; transform:translateY(16px); transition:opacity .6s ease, transform .6s ease;}
+  .reveal.in{opacity:1; transform:translateY(0);}
+
+  /* ---------- Sections ---------- */
+  section{padding-top:56px; scroll-margin-top:24px;}
+  section:first-of-type{padding-top:44px;}
+  .eyebrow{
+    font-size:12px; font-weight:700; letter-spacing:2px; text-transform:uppercase;
+    color:var(--primary); margin-bottom:8px;
+  }
+  h1.sec-title{
+    font-size:30px; font-weight:800; padding-bottom:16px;
+    border-bottom:3px solid var(--primary); margin-bottom:20px;
+  }
+  h2.sub-title{
+    font-size:21px; font-weight:700; color:var(--primary);
+    margin:32px 0 12px;
+  }
+  h3.sub-sub{
+    font-size:17px; font-weight:700; color:var(--secondary);
+    margin:22px 0 10px;
+  }
+  .lead{color:#374151; font-size:16px;}
+
+  blockquote{
+    border-left:4px solid var(--primary);
+    background:var(--light-blue);
+    padding:16px 22px;
+    margin:20px 0;
+    border-radius:0 var(--radius-lg) var(--radius-lg) 0;
+    font-style:italic;
+    color:var(--secondary);
+    font-size:16px;
+  }
+
+  ul.bullets, ol.numbers{padding-left:22px; margin:0 0 16px;}
+  ul.bullets li, ol.numbers li{margin-bottom:7px;}
+  ul.bullets li::marker{color:var(--primary);}
+  ul.bullets.sub{margin-top:-4px; margin-bottom:12px;}
+
+  /* ---------- Card grid ---------- */
+  .card-grid{
+    display:grid; grid-template-columns:1fr 1fr; gap:14px; margin:18px 0 22px;
+  }
+  .card{
+    background:var(--light-blue);
+    border:1px solid #DCEBFF;
+    border-radius:var(--radius-lg);
+    padding:18px 20px;
+    transition:transform .2s ease, box-shadow .2s ease;
+  }
+  .card:hover{transform:translateY(-3px); box-shadow:var(--shadow-md);}
+  .card h4{font-size:15.5px; font-weight:700; margin-bottom:6px;}
+  .card p{font-size:14px; color:#374151; margin:0;}
+
+  /* ---------- Tables ---------- */
+  .table-wrap{overflow-x:auto; margin:18px 0 22px; border-radius:var(--radius-lg); box-shadow:var(--shadow-sm);}
+  table{width:100%; border-collapse:collapse; font-size:14px; min-width:520px;}
+  thead th{
+    background:var(--secondary); color:#fff; text-align:left;
+    padding:11px 16px; font-family:'Plus Jakarta Sans',sans-serif; font-weight:700; font-size:13px;
+  }
+  tbody td{padding:11px 16px; border-bottom:1px solid var(--border); vertical-align:top;}
+  tbody tr:nth-child(even){background:var(--light-blue);}
+  tbody tr:last-child td{border-bottom:none;}
+
+  /* ---------- Persona ---------- */
+  .persona{
+    background:#fff; border:1px solid var(--border); border-radius:var(--radius-xl);
+    box-shadow:var(--shadow-sm); padding:22px 24px; margin:18px 0 24px;
+  }
+  .persona h3{margin-bottom:12px; font-size:17px;}
+  .persona .badge{
+    display:inline-block; background:var(--primary); color:#fff; font-size:11px; font-weight:700;
+    padding:3px 10px; border-radius:999px; margin-left:8px; vertical-align:middle;
+  }
+
+  /* ---------- Stats ---------- */
+  .stat-grid{display:grid; grid-template-columns:repeat(4,1fr); gap:14px; margin:20px 0;}
+  .stat-card{
+    background:linear-gradient(160deg,#fff, var(--light-blue));
+    border:1px solid #DCEBFF; border-radius:var(--radius-lg);
+    padding:20px 14px; text-align:center; box-shadow:var(--shadow-sm);
+  }
+  .stat-card .num{font-family:'Plus Jakarta Sans',sans-serif; font-weight:800; font-size:28px; color:var(--primary);}
+  .stat-card .lbl{font-size:12.5px; color:var(--gray); margin-top:4px;}
+
+  /* ---------- Footer ---------- */
+  footer{
+    margin-top:70px; padding:34px 32px 50px; text-align:center;
+    color:var(--gray); font-size:13px; border-top:1px solid var(--border);
+  }
+
+  /* ---------- Mobile ---------- */
+  .menu-toggle{display:none;}
+  @media (max-width: 900px){
+    .shell{display:block;}
+    .sidebar{
+      position:sticky; top:0; height:auto; width:100%; z-index:50;
+      border-right:none; border-bottom:1px solid var(--border);
+      padding:14px 18px;
+    }
+    .sidebar .brand-row{display:flex; align-items:center; justify-content:space-between;}
+    .sidebar .brand-sub{display:none;}
+    .sidebar nav{display:none; max-height:70vh; overflow-y:auto; margin-top:12px;}
+    .sidebar.open nav{display:block;}
+    .menu-toggle{
+      display:inline-flex; align-items:center; gap:6px;
+      background:var(--primary); color:#fff; border:none; border-radius:10px;
+      padding:8px 14px; font-family:'Inter'; font-weight:600; font-size:13px; cursor:pointer;
+    }
+    .card-grid{grid-template-columns:1fr;}
+    .stat-grid{grid-template-columns:1fr 1fr;}
+    .cover{padding:64px 24px 56px; border-radius:0 0 28px 28px;}
+    .cover h1{font-size:32px;}
+  }
+</style>
+</head>
+<body>
+
+<div class="cover">
+  <div class="cover-eyebrow">Dokumen Referensi &middot; Juli 2026</div>
+  <h1>BINAUSAHA.COM</h1>
+  <h2>Master Website Architecture — Versi 3 (Final)</h2>
+  <div class="tagline">&ldquo;Mulai Usaha. Kelola Bisnis. Bertumbuh Bersama.&rdquo;</div>
+  <div class="platform">PLATFORM DIGITAL UMKM INDONESIA</div>
+  <div class="meta">Untuk Tim Desain &middot; Developer &middot; Stakeholder</div>
+</div>
+
+<div class="shell">
+
+  <aside class="sidebar" id="sidebar">
+    <div class="brand-row">
+      <div>
+        <div class="brand">BinaUsaha</div>
+        <div class="brand-sub">Master Architecture V3</div>
+      </div>
+      <button class="menu-toggle" id="menuToggle">Daftar Isi ▾</button>
+    </div>
+    <nav id="tocNav">
+      <a href="#s1">1. Cover &amp; Brand Guideline</a>
+      <a href="#s2">2. Filosofi Produk</a>
+      <a href="#s3">3. Visi, Misi &amp; Positioning</a>
+      <a href="#s4">4. Persona UMKM</a>
+      <a href="#s5">5. User Journey</a>
+      <a href="#s6">6. Information Architecture</a>
+      <a href="#s7">7. Struktur Konten Website</a>
+      <a href="#s8">8. Copywriting Halaman</a>
+      <a href="#s9">9. UI/UX Design System</a>
+      <a href="#s10">10. Design Tokens</a>
+      <a href="#s11">11. Komponen UI</a>
+      <a href="#s12">12. Animasi &amp; Interaction</a>
+      <a href="#s13">13. Teknologi &amp; Arsitektur</a>
+      <a href="#s14">14. Database &amp; ERD</a>
+      <a href="#s15">15. API Structure</a>
+      <a href="#s16">16. SEO Strategy</a>
+      <a href="#s17">17. AI Integration</a>
+      <a href="#s18">18. Dashboard Admin</a>
+      <a href="#s19">19. Dashboard Customer</a>
+      <a href="#s20">20. Roadmap Pengembangan</a>
+    </nav>
+  </aside>
+
+  <div class="main">
+    <div class="container">
+
+      <!-- 1 -->
+      <section id="s1" class="reveal">
+        <div class="eyebrow">Bagian 01</div>
+        <h1 class="sec-title">1. Cover &amp; Brand Guideline</h1>
+        <p class="lead">Identitas visual BinaUsaha dibangun agar konsisten di seluruh titik kontak digital — website, dashboard produk, materi pemasaran, hingga dokumen resmi. Panduan berikut menjadi acuan warna, tipografi, dan gaya visual yang wajib diikuti.</p>
+
+        <h2 class="sub-title">1.1 Palet Warna</h2>
+        <div class="table-wrap"><table>
+          <thead><tr><th>Nama</th><th>Kode Warna</th><th>Penggunaan</th></tr></thead>
+          <tbody>
+            <tr><td>Primary</td><td>#1681FA</td><td>Warna utama brand, CTA, aksen tautan</td></tr>
+            <tr><td>Secondary</td><td>#0F172A</td><td>Judul, teks penting, latar gelap</td></tr>
+            <tr><td>Background</td><td>#FFFFFF</td><td>Latar belakang utama</td></tr>
+            <tr><td>Light Blue</td><td>#EFF6FF</td><td>Latar section, card, highlight lembut</td></tr>
+            <tr><td>Border</td><td>#E5E7EB</td><td>Garis pembatas, outline card</td></tr>
+            <tr><td>Success</td><td>#16A34A</td><td>Indikator status berhasil</td></tr>
+            <tr><td>Warning</td><td>#F59E0B</td><td>Indikator status peringatan</td></tr>
+            <tr><td>Danger</td><td>#EF4444</td><td>Indikator status gagal/error</td></tr>
+          </tbody>
+        </table></div>
+
+        <h2 class="sub-title">1.2 Tipografi</h2>
+        <div class="table-wrap"><table>
+          <thead><tr><th>Kategori</th><th>Font</th><th>Keterangan</th></tr></thead>
+          <tbody>
+            <tr><td>Heading</td><td>Plus Jakarta Sans</td><td>Digunakan untuk seluruh judul dan sub-judul</td></tr>
+            <tr><td>Body</td><td>Inter</td><td>Digunakan untuk paragraf dan teks konten</td></tr>
+            <tr><td>Icon Set</td><td>Lucide</td><td>Konsisten di seluruh halaman dan komponen</td></tr>
+          </tbody>
+        </table></div>
+
+        <h2 class="sub-title">1.3 Gaya Visual (Style)</h2>
+        <ul class="bullets">
+          <li>Glass Morphism — efek kaca buram pada card dan navigasi</li>
+          <li>Rounded XL — sudut membulat besar pada elemen UI</li>
+          <li>Soft Shadow — bayangan lembut untuk kedalaman visual</li>
+          <li>Gradient — transisi warna halus pada latar dan aksen</li>
+          <li>Micro Animation — animasi kecil untuk memperkuat interaktivitas</li>
+        </ul>
+
+        <h2 class="sub-title">1.4 Penggunaan Logo</h2>
+        <ul class="bullets">
+          <li>Logo utama digunakan di atas latar terang (putih / Light Blue).</li>
+          <li>Versi logo monokrom putih digunakan di atas latar gelap (Secondary) atau foto.</li>
+          <li>Area kosong (clear space) minimal setara tinggi huruf &ldquo;B&rdquo; pada logo di setiap sisi.</li>
+          <li>Logo tidak boleh diputar, diberi bayangan tambahan, atau diubah rasio (stretch).</li>
+        </ul>
+      </section>
+
+      <!-- 2 -->
+      <section id="s2" class="reveal">
+        <div class="eyebrow">Bagian 02</div>
+        <h1 class="sec-title">2. Filosofi Produk BinaUsaha</h1>
+        <p class="lead">BinaUsaha lahir dari satu keyakinan sederhana: UMKM Indonesia tidak kekurangan semangat, tetapi sering kekurangan sistem. Produk ini dirancang bukan sebagai kumpulan fitur, melainkan sebagai pendamping usaha yang hadir dari tahap paling awal (legalitas dan identitas) hingga tahap bertumbuh (skala dan otomatisasi).</p>
+        <blockquote>&ldquo;UMKM tidak butuh lebih banyak aplikasi. Mereka butuh satu tempat yang bisa dipercaya untuk mengurus semuanya.&rdquo;</blockquote>
+
+        <h2 class="sub-title">2.1 Prinsip Dasar</h2>
+        <div class="card-grid">
+          <div class="card"><h4>Satu Platform, Semua Terhubung</h4><p>Legalitas, website, kasir, dan keuangan berjalan dalam satu ekosistem data, bukan aplikasi terpisah-pisah.</p></div>
+          <div class="card"><h4>Pendampingan, Bukan Sekadar Alat</h4><p>Setiap produk disertai konsultasi manusia — teknologi memudahkan, manusia meyakinkan.</p></div>
+          <div class="card"><h4>Bertahap Sesuai Kesiapan</h4><p>Pengguna bisa mulai dari kebutuhan paling mendesak, tanpa harus memakai seluruh fitur sekaligus.</p></div>
+          <div class="card"><h4>Transparan &amp; Terjangkau</h4><p>Harga dan proses disampaikan apa adanya, tanpa biaya tersembunyi atau janji berlebihan.</p></div>
+        </div>
+
+        <h2 class="sub-title">2.2 Bukan Sekadar Website Bisnis</h2>
+        <p>Website BinaUsaha berfungsi sebagai etalase sekaligus pintu masuk ekosistem. Setiap kunjungan diarahkan untuk memahami satu hal: bahwa mengembangkan usaha kecil bisa dilakukan secara terstruktur, ditemani, dan tidak harus dikerjakan sendirian.</p>
+      </section>
+
+      <!-- 3 -->
+      <section id="s3" class="reveal">
+        <div class="eyebrow">Bagian 03</div>
+        <h1 class="sec-title">3. Visi, Misi, dan Positioning</h1>
+
+        <h2 class="sub-title">3.1 Visi</h2>
+        <blockquote>Menjadi platform digital terdepan yang membantu UMKM Indonesia bertumbuh secara terstruktur, mandiri, dan berkelanjutan.</blockquote>
+
+        <h2 class="sub-title">3.2 Misi</h2>
+        <ol class="numbers">
+          <li>Menyediakan layanan legalitas, website, dan sistem operasional usaha yang mudah diakses oleh UMKM di seluruh Indonesia.</li>
+          <li>Menghadirkan pendampingan bisnis yang praktis, relevan, dan berbasis kebutuhan nyata pelaku usaha.</li>
+          <li>Membangun ekosistem digital yang mengintegrasikan legalitas, keuangan, pemasaran, dan operasional dalam satu platform.</li>
+          <li>Meningkatkan literasi digital dan keuangan UMKM melalui konten edukatif dan produk yang mudah dipahami.</li>
+        </ol>
+
+        <h2 class="sub-title">3.3 Positioning Statement</h2>
+        <blockquote>Untuk pelaku UMKM yang ingin berkembang secara terarah, BinaUsaha adalah platform pendampingan bisnis digital yang mengintegrasikan legalitas, website, dan sistem operasional usaha — berbeda dari penyedia jasa tunggal atau software generik, karena BinaUsaha mendampingi dari awal hingga skala.</blockquote>
+
+        <h2 class="sub-title">3.4 Peta Positioning</h2>
+        <div class="table-wrap"><table>
+          <thead><tr><th>Kompetitor / Kategori</th><th>Fokus Utama</th><th>Perbedaan BinaUsaha</th></tr></thead>
+          <tbody>
+            <tr><td>Jasa legalitas online</td><td>Hanya pengurusan dokumen legal</td><td>Legalitas + website + sistem operasional dalam satu paket</td></tr>
+            <tr><td>Jasa pembuatan website</td><td>Hanya produksi website</td><td>Website terhubung ke kasir, keuangan, dan pendampingan</td></tr>
+            <tr><td>Aplikasi kasir/POS mandiri</td><td>Hanya pencatatan transaksi</td><td>RajaKas terintegrasi dengan legalitas &amp; laporan bisnis</td></tr>
+            <tr><td>Konsultan bisnis independen</td><td>Pendampingan tanpa alat digital</td><td>Pendampingan manusia didukung platform digital</td></tr>
+          </tbody>
+        </table></div>
+      </section>
+
+      <!-- 4 -->
+      <section id="s4" class="reveal">
+        <div class="eyebrow">Bagian 04</div>
+        <h1 class="sec-title">4. Target Pengguna (Persona UMKM)</h1>
+        <p class="lead">Tiga persona berikut mewakili sebagian besar segmen pengguna BinaUsaha dan menjadi acuan dalam penyusunan konten, alur, serta prioritas fitur.</p>
+
+        <div class="persona">
+          <h3>Bu Sari <span class="badge">Kuliner Rumahan</span></h3>
+          <div class="table-wrap"><table><tbody>
+            <tr><td style="width:32%"><strong>Ciri-ciri</strong></td><td>42 tahun, menjalankan usaha katering &amp; frozen food dari rumah, aktif di WhatsApp dan Instagram.</td></tr>
+            <tr><td><strong>Tujuan Utama</strong></td><td>Punya legalitas resmi (NIB, sertifikat halal) agar bisa masuk ke marketplace dan gerai retail.</td></tr>
+            <tr><td><strong>Kendala</strong></td><td>Bingung proses perizinan, waktu terbatas karena mengurus usaha sendirian, minim literasi digital.</td></tr>
+            <tr><td><strong>Produk Relevan</strong></td><td>Legalitas, Sertifikasi Halal, Website sederhana, Pendampingan</td></tr>
+          </tbody></table></div>
+        </div>
+
+        <div class="persona">
+          <h3>Reza <span class="badge">Fashion Online</span></h3>
+          <div class="table-wrap"><table><tbody>
+            <tr><td style="width:32%"><strong>Ciri-ciri</strong></td><td>28 tahun, menjual produk melalui Instagram &amp; marketplace, mulai kewalahan mencatat pesanan manual.</td></tr>
+            <tr><td><strong>Tujuan Utama</strong></td><td>Memiliki website brand sendiri dan sistem pencatatan penjualan yang rapi.</td></tr>
+            <tr><td><strong>Kendala</strong></td><td>Belum punya tim IT, anggaran terbatas untuk developer, butuh solusi cepat jadi.</td></tr>
+            <tr><td><strong>Produk Relevan</strong></td><td>Website UMKM, RajaKas (POS &amp; Keuangan), Digital Marketing</td></tr>
+          </tbody></table></div>
+        </div>
+
+        <div class="persona">
+          <h3>Pak Budi <span class="badge">Bengkel &amp; Jasa Servis</span></h3>
+          <div class="table-wrap"><table><tbody>
+            <tr><td style="width:32%"><strong>Ciri-ciri</strong></td><td>50 tahun, usaha sudah berjalan 10 tahun namun operasional masih manual dan belum berbadan hukum.</td></tr>
+            <tr><td><strong>Tujuan Utama</strong></td><td>Legalitas usaha untuk ikut tender/kerja sama dengan perusahaan, serta pencatatan keuangan yang tertib.</td></tr>
+            <tr><td><strong>Kendala</strong></td><td>Kurang percaya diri dengan teknologi, membutuhkan pendampingan tatap muka atau telepon.</td></tr>
+            <tr><td><strong>Produk Relevan</strong></td><td>Legalitas, Keuangan, Pendampingan langsung</td></tr>
+          </tbody></table></div>
+        </div>
+      </section>
+
+      <!-- 5 -->
+      <section id="s5" class="reveal">
+        <div class="eyebrow">Bagian 05</div>
+        <h1 class="sec-title">5. User Journey</h1>
+        <p class="lead">Perjalanan pengguna disusun dalam lima tahap utama, dari pertama kali mengenal BinaUsaha hingga menjadi pelanggan yang bertumbuh bersama platform.</p>
+        <div class="table-wrap"><table>
+          <thead><tr><th>Tahap</th><th>Titik Kontak</th><th>Emosi Pengguna</th><th>Peran Website / Produk</th></tr></thead>
+          <tbody>
+            <tr><td>1. Awareness</td><td>Google Search, Media Sosial, Iklan</td><td>Penasaran, mencari solusi</td><td>Artikel edukasi, Hero section yang jelas dalam 5 detik</td></tr>
+            <tr><td>2. Consideration</td><td>Halaman Solusi &amp; Produk, Testimoni</td><td>Membandingkan, ragu-ragu</td><td>Penjelasan solusi, studi kasus, statistik bukti sosial</td></tr>
+            <tr><td>3. Decision</td><td>Form Konsultasi Gratis, WhatsApp</td><td>Butuh kepastian &amp; kepercayaan</td><td>CTA konsultasi gratis, respons cepat tim BinaUsaha</td></tr>
+            <tr><td>4. Onboarding</td><td>Konsultasi, Analisa, Rekomendasi</td><td>Berharap proses mudah</td><td>Alur Cara Kerja yang transparan, pendamping ahli</td></tr>
+            <tr><td>5. Growth &amp; Retention</td><td>Dashboard Customer, RajaKas</td><td>Ingin terus berkembang</td><td>Laporan performa usaha, rekomendasi langkah lanjutan</td></tr>
+          </tbody>
+        </table></div>
+      </section>
+
+      <!-- 6 -->
+      <section id="s6" class="reveal">
+        <div class="eyebrow">Bagian 06</div>
+        <h1 class="sec-title">6. Information Architecture (Sitemap Lengkap)</h1>
+        <p class="lead">Struktur navigasi dirancang datar (flat) dan mudah ditelusuri, maksimal tiga klik dari halaman utama ke informasi yang dicari.</p>
+
+        <h2 class="sub-title">6.1 Peta Situs Utama</h2>
+        <ol class="numbers">
+          <li>Beranda (/)</li>
+          <li>Solusi (/solusi)</li>
+          <li>Produk (/produk)
+            <ul class="bullets sub"><li>→ Detail Produk (/produk/[slug]) — RajaKas, Website UMKM, Legalitas, Digital Marketing, Pelatihan, Pendampingan</li></ul>
+          </li>
+          <li>Cara Kerja (/cara-kerja)</li>
+          <li>Artikel (/artikel)
+            <ul class="bullets sub">
+              <li>→ Detail Artikel (/artikel/[slug])</li>
+              <li>→ Arsip Kategori (/artikel/kategori/[kategori])</li>
+            </ul>
+          </li>
+          <li>Tentang Kami (/tentang)</li>
+          <li>Kontak (/kontak)</li>
+          <li>Konsultasi Gratis (/konsultasi) — form multi-step</li>
+          <li>Masuk / Daftar (/login, /daftar)</li>
+          <li>Dashboard Customer (/dashboard/...) — area setelah login</li>
+          <li>Dashboard Admin (/admin/...) — area internal tim</li>
+          <li>Kebijakan Privasi &amp; Syarat Ketentuan (/legal/...)</li>
+        </ol>
+
+        <h2 class="sub-title">6.2 Struktur Dashboard Customer</h2>
+        <ul class="bullets">
+          <li>Ringkasan (/dashboard)</li>
+          <li>Profil Usaha (/dashboard/profil)</li>
+          <li>Legalitas &amp; Dokumen (/dashboard/legalitas)</li>
+          <li>RajaKas — Kasir &amp; Keuangan (/dashboard/rajakas)</li>
+          <li>Website Saya (/dashboard/website)</li>
+          <li>Jadwal Konsultasi (/dashboard/konsultasi)</li>
+          <li>Laporan &amp; Analitik (/dashboard/laporan)</li>
+          <li>Pengaturan Akun (/dashboard/pengaturan)</li>
+        </ul>
+      </section>
+
+      <!-- 7 -->
+      <section id="s7" class="reveal">
+        <div class="eyebrow">Bagian 07</div>
+        <h1 class="sec-title">7. Struktur Konten Website (Detail per Section)</h1>
+        <p class="lead">Bagian ini menjelaskan urutan dan isi tiap section pada halaman utama, dari Navbar hingga Footer, sebagai acuan implementasi desain dan pengembangan.</p>
+
+        <h2 class="sub-title">7.1 Alur Halaman Utama</h2>
+        <ol class="numbers">
+          <li>Navbar</li><li>Hero</li><li>Problem</li><li>Framework BISA</li><li>Solusi</li><li>Produk</li>
+          <li>Cara Kerja</li><li>Mengapa BinaUsaha</li><li>Dashboard Demo</li><li>Statistik</li>
+          <li>Testimoni</li><li>Artikel</li><li>FAQ</li><li>CTA Besar</li><li>Footer</li>
+        </ol>
+
+        <h2 class="sub-title">7.2 Navbar</h2>
+        <div class="table-wrap"><table><tbody>
+          <tr><td style="width:28%">Tinggi</td><td>80px</td></tr>
+          <tr><td>Logo</td><td>Kiri</td></tr>
+          <tr><td>Menu</td><td>Home, Solusi, Produk, Artikel, Tentang, Kontak (tengah)</td></tr>
+          <tr><td>Tombol</td><td>Konsultasi Gratis (kanan)</td></tr>
+          <tr><td>Perilaku</td><td>Sticky, transparan, blur saat discroll</td></tr>
+        </tbody></table></div>
+
+        <h2 class="sub-title">7.3 Hero Section</h2>
+        <p>Tinggi section: 100vh (satu layar penuh).</p>
+        <h3 class="sub-sub">Kolom Kiri</h3>
+        <ul class="bullets">
+          <li>Judul besar: &ldquo;Bangun Bisnis Lebih Mudah Bersama BinaUsaha&rdquo;</li>
+          <li>Sub-judul: mulai dari legalitas, website, branding, sistem kasir, hingga pengembangan bisnis — semua dalam satu platform</li>
+          <li>CTA utama: &ldquo;Konsultasi Gratis&rdquo;</li>
+          <li>CTA sekunder: &ldquo;Lihat Solusi&rdquo;</li>
+        </ul>
+        <h3 class="sub-sub">Kolom Kanan</h3>
+        <p>Animasi dashboard interaktif yang menampilkan modul-modul yang saling terhubung:</p>
+        <ul class="bullets"><li>Website</li><li>Kasir</li><li>Legalitas</li><li>Pajak</li><li>Halal</li><li>Inventory</li><li>Keuangan</li></ul>
+        <h3 class="sub-sub">Latar Belakang</h3>
+        <ul class="bullets"><li>Gradient</li><li>Floating shape</li><li>Particle</li><li>Blur</li></ul>
+
+        <h2 class="sub-title">7.4 Problem Section</h2>
+        <p>Judul: &ldquo;Mengapa Banyak UMKM Sulit Berkembang?&rdquo;</p>
+        <div class="card-grid">
+          <div class="card"><h4>Tidak Punya Legalitas</h4><p>UMKM belum memiliki badan usaha resmi sehingga sulit berkembang dan mengakses pembiayaan.</p></div>
+          <div class="card"><h4>Tidak Punya Website</h4><p>Minim kehadiran digital membuat bisnis sulit dijangkau calon pelanggan baru.</p></div>
+          <div class="card"><h4>Penjualan Belum Stabil</h4><p>Strategi pemasaran belum terarah sehingga omzet naik-turun tidak menentu.</p></div>
+          <div class="card"><h4>Operasional Masih Manual</h4><p>Pencatatan kasir dan keuangan belum tersistem sehingga rawan kesalahan.</p></div>
+        </div>
+
+        <h2 class="sub-title">7.5 Framework BISA</h2>
+        <p>Section full-width dengan animasi timeline yang menjelaskan metodologi pendampingan BinaUsaha dalam empat tahap:</p>
+        <div class="table-wrap"><table>
+          <thead><tr><th>Tahap</th><th>Nama</th><th>Deskripsi</th></tr></thead>
+          <tbody>
+            <tr><td>B</td><td>Bangun Usaha</td><td>Membentuk fondasi bisnis: legalitas, branding, dan identitas usaha.</td></tr>
+            <tr><td>I</td><td>Integrasi Digital</td><td>Menghubungkan bisnis dengan website, sistem kasir, dan alat digital.</td></tr>
+            <tr><td>S</td><td>Scale Up</td><td>Mengembangkan jangkauan pasar dan kapasitas operasional.</td></tr>
+            <tr><td>A</td><td>Akselerasi</td><td>Mempercepat pertumbuhan melalui strategi dan pendampingan lanjutan.</td></tr>
+          </tbody>
+        </table></div>
+
+        <h2 class="sub-title">7.6 Solusi BinaUsaha</h2>
+        <p>Judul: &ldquo;Semua Yang Dibutuhkan UMKM Ada Dalam Satu Platform&rdquo; — ditampilkan dalam grid 6 card.</p>
+        <div class="card-grid">
+          <div class="card"><h4>Website</h4><p>Pembuatan website bisnis profesional dan siap pakai.</p></div>
+          <div class="card"><h4>Legalitas</h4><p>Pengurusan izin usaha dan dokumen legal UMKM.</p></div>
+          <div class="card"><h4>Branding</h4><p>Pengembangan identitas visual dan citra usaha.</p></div>
+          <div class="card"><h4>POS (Kasir)</h4><p>Sistem kasir digital untuk transaksi harian.</p></div>
+          <div class="card"><h4>Keuangan</h4><p>Pencatatan dan pelaporan keuangan usaha.</p></div>
+          <div class="card"><h4>Pendampingan</h4><p>Konsultasi dan bimbingan pengembangan bisnis berkelanjutan.</p></div>
+        </div>
+
+        <h2 class="sub-title">7.7 Produk</h2>
+        <ul class="bullets"><li>RajaKas</li><li>Website UMKM</li><li>Legalitas</li><li>Digital Marketing</li><li>Pelatihan</li><li>Pendampingan</li></ul>
+
+        <h2 class="sub-title">7.8 Cara Kerja</h2>
+        <ol class="numbers"><li>Konsultasi</li><li>Analisa</li><li>Rekomendasi</li><li>Implementasi</li><li>Pendampingan</li></ol>
+
+        <h2 class="sub-title">7.9 Mengapa BinaUsaha</h2>
+        <div class="card-grid">
+          <div class="card"><h4>Praktis</h4><p>Proses sederhana tanpa birokrasi berbelit.</p></div>
+          <div class="card"><h4>Terpercaya</h4><p>Didukung tim profesional dan berpengalaman.</p></div>
+          <div class="card"><h4>Cepat</h4><p>Waktu implementasi yang efisien.</p></div>
+          <div class="card"><h4>Terintegrasi</h4><p>Semua layanan terhubung dalam satu ekosistem.</p></div>
+          <div class="card"><h4>Pendamping Ahli</h4><p>Konsultan yang siap membimbing setiap tahap.</p></div>
+          <div class="card"><h4>Harga Transparan</h4><p>Tidak ada biaya tersembunyi.</p></div>
+        </div>
+
+        <h2 class="sub-title">7.10 Dashboard Demo</h2>
+        <p>Menjadi daya tarik utama halaman: animasi dashboard interaktif yang menampilkan modul RajaKas, CRM, Website, Inventory, Laporan, dan Analitik, lengkap dengan grafik live serta mode gelap dan terang.</p>
+
+        <h2 class="sub-title">7.11 Statistik</h2>
+        <div class="stat-grid">
+          <div class="stat-card"><div class="num" data-count="500" data-suffix="+">0</div><div class="lbl">UMKM</div></div>
+          <div class="stat-card"><div class="num" data-count="1000" data-suffix="+">0</div><div class="lbl">Konsultasi</div></div>
+          <div class="stat-card"><div class="num" data-count="25" data-suffix="+">0</div><div class="lbl">Mitra</div></div>
+          <div class="stat-card"><div class="num" data-count="98" data-suffix="%">0</div><div class="lbl">Kepuasan</div></div>
+        </div>
+
+        <h2 class="sub-title">7.12 Testimoni, Artikel, FAQ, CTA &amp; Footer</h2>
+        <ul class="bullets">
+          <li><strong>Testimoni</strong> — slider gaya Google Review: foto, nama, jenis usaha, isi ulasan.</li>
+          <li><strong>Artikel</strong> — tiga artikel terbaru dalam card: thumbnail, kategori, tanggal, tombol baca.</li>
+          <li><strong>FAQ</strong> — accordion berisi 20 pertanyaan umum.</li>
+          <li><strong>CTA Besar</strong> — latar biru primary, judul &ldquo;Siap Mengembangkan Bisnis Anda?&rdquo;, tombol &ldquo;Mulai Konsultasi&rdquo;.</li>
+          <li><strong>Footer</strong> — Logo, Tentang, Produk, Artikel, Kontak, Media Sosial, Copyright.</li>
+        </ul>
+
+        <h2 class="sub-title">7.13 Struktur Halaman Lainnya</h2>
+        <h3 class="sub-sub">Halaman Produk</h3>
+        <ul class="bullets"><li>Hero</li><li>Fitur</li><li>Screenshot</li><li>Harga</li><li>FAQ</li><li>CTA</li></ul>
+        <h3 class="sub-sub">Halaman Artikel</h3>
+        <ul class="bullets"><li>Kategori</li><li>Search</li><li>Filter</li><li>Daftar Artikel</li><li>Optimasi SEO</li></ul>
+        <h3 class="sub-sub">Halaman Tentang</h3>
+        <ul class="bullets"><li>Visi</li><li>Misi</li><li>Nilai</li><li>Partner</li><li>Tim</li></ul>
+        <h3 class="sub-sub">Halaman Kontak</h3>
+        <ul class="bullets"><li>Google Maps</li><li>WhatsApp</li><li>Email</li><li>Jam Operasional</li><li>Form Kontak</li></ul>
+
+        <h2 class="sub-title">7.14 Tujuan &amp; Isi Konten per Section</h2>
+        <div class="table-wrap"><table>
+          <thead><tr><th>Section</th><th>Tujuan</th><th>Isi Konten</th></tr></thead>
+          <tbody>
+            <tr><td>Navbar</td><td>Navigasi utama</td><td>Logo, menu, tombol konsultasi</td></tr>
+            <tr><td>Hero</td><td>Menarik perhatian dalam 5 detik</td><td>Headline, subheadline, CTA, ilustrasi dashboard</td></tr>
+            <tr><td>Problem</td><td>Membangun kesadaran</td><td>Tantangan umum yang dihadapi UMKM</td></tr>
+            <tr><td>Solusi</td><td>Menunjukkan jawaban</td><td>Enam solusi utama BinaUsaha</td></tr>
+            <tr><td>Framework BISA</td><td>Menjelaskan metodologi</td><td>Bangun Usaha → Integrasi Digital → Scale Up → Akselerasi</td></tr>
+            <tr><td>Produk</td><td>Menampilkan layanan</td><td>RajaKas, Website, Legalitas, Branding, Pendampingan</td></tr>
+            <tr><td>Cara Kerja</td><td>Menumbuhkan kepercayaan</td><td>Alur kerja dari konsultasi hingga pendampingan</td></tr>
+            <tr><td>Keunggulan</td><td>Alasan memilih BinaUsaha</td><td>Nilai tambah dan diferensiasi</td></tr>
+            <tr><td>Dashboard Demo</td><td>Membuat produk terasa nyata</td><td>Preview fitur dan antarmuka platform</td></tr>
+            <tr><td>Statistik</td><td>Bukti sosial</td><td>Jumlah UMKM, konsultasi, mitra, kepuasan</td></tr>
+            <tr><td>Testimoni</td><td>Meningkatkan kredibilitas</td><td>Cerita sukses pelanggan</td></tr>
+            <tr><td>Artikel</td><td>Edukasi &amp; SEO</td><td>Artikel terbaru berdasarkan kategori</td></tr>
+            <tr><td>FAQ</td><td>Mengurangi keraguan</td><td>Jawaban atas pertanyaan umum</td></tr>
+            <tr><td>CTA</td><td>Mendorong konversi</td><td>Ajakan konsultasi atau mulai menggunakan layanan</td></tr>
+            <tr><td>Footer</td><td>Informasi pendukung</td><td>Navigasi, kontak, media sosial, legal</td></tr>
+          </tbody>
+        </table></div>
+      </section>
+
+      <!-- 8 -->
+      <section id="s8" class="reveal">
+        <div class="eyebrow">Bagian 08</div>
+        <h1 class="sec-title">8. Copywriting Setiap Halaman (Siap Pakai)</h1>
+        <p class="lead">Naskah berikut dapat langsung digunakan sebagai draf awal implementasi, dengan penyesuaian tone tim pemasaran bila diperlukan.</p>
+
+        <h2 class="sub-title">8.1 Hero Section</h2>
+        <div class="table-wrap"><table><tbody>
+          <tr><td style="width:22%">Headline</td><td>Bangun Bisnis Lebih Mudah Bersama BinaUsaha</td></tr>
+          <tr><td>Subheadline</td><td>Mulai dari legalitas, website, branding, sistem kasir, hingga pengembangan bisnis. Semua dalam satu platform.</td></tr>
+          <tr><td>CTA Utama</td><td>Konsultasi Gratis</td></tr>
+          <tr><td>CTA Sekunder</td><td>Lihat Solusi</td></tr>
+        </tbody></table></div>
+
+        <h2 class="sub-title">8.2 Problem Section</h2>
+        <div class="table-wrap"><table><tbody>
+          <tr><td style="width:22%">Judul</td><td>Mengapa Banyak UMKM Sulit Berkembang?</td></tr>
+          <tr><td>Card 1</td><td>Tidak Punya Legalitas — Sulit mengakses pembiayaan dan kerja sama karena belum berbadan usaha resmi.</td></tr>
+          <tr><td>Card 2</td><td>Tidak Punya Website — Calon pelanggan kesulitan menemukan bisnis Anda secara online.</td></tr>
+          <tr><td>Card 3</td><td>Penjualan Belum Stabil — Tanpa strategi yang terarah, omzet naik turun tanpa pola yang jelas.</td></tr>
+          <tr><td>Card 4</td><td>Operasional Masih Manual — Pencatatan yang tidak tersistem membuka celah kesalahan dan kebocoran.</td></tr>
+        </tbody></table></div>
+
+        <h2 class="sub-title">8.3 CTA Besar</h2>
+        <div class="table-wrap"><table><tbody>
+          <tr><td style="width:22%">Judul</td><td>Siap Mengembangkan Bisnis Anda?</td></tr>
+          <tr><td>Sub-teks</td><td>Konsultasikan kebutuhan usaha Anda secara gratis bersama tim BinaUsaha, tanpa komitmen di awal.</td></tr>
+          <tr><td>Tombol</td><td>Mulai Konsultasi</td></tr>
+        </tbody></table></div>
+
+        <h2 class="sub-title">8.4 Meta Description (Contoh SEO)</h2>
+        <div class="table-wrap"><table><tbody>
+          <tr><td style="width:22%">Beranda</td><td>BinaUsaha membantu UMKM mengurus legalitas, website, dan sistem kasir dalam satu platform. Konsultasi gratis, mulai sekarang.</td></tr>
+          <tr><td>Produk RajaKas</td><td>RajaKas adalah sistem kasir dan keuangan digital untuk UMKM, terintegrasi dengan laporan bisnis BinaUsaha.</td></tr>
+          <tr><td>Halaman Legalitas</td><td>Urus NIB, sertifikat halal, dan izin usaha lainnya bersama BinaUsaha — proses jelas, harga transparan.</td></tr>
+        </tbody></table></div>
+      </section>
+
+      <!-- 9 -->
+      <section id="s9" class="reveal">
+        <div class="eyebrow">Bagian 09</div>
+        <h1 class="sec-title">9. UI/UX Design System</h1>
+        <p class="lead">Design system BinaUsaha memastikan konsistensi visual dan pengalaman pengguna di seluruh halaman, produk, dan dashboard, sekaligus mempercepat proses desain dan pengembangan melalui komponen yang dapat digunakan ulang.</p>
+
+        <h2 class="sub-title">9.1 Prinsip Desain</h2>
+        <div class="card-grid">
+          <div class="card"><h4>Jelas dalam 5 Detik</h4><p>Setiap halaman harus dapat dipahami maksudnya dalam lima detik pertama.</p></div>
+          <div class="card"><h4>Konsisten</h4><p>Komponen, spacing, dan warna yang sama digunakan berulang di seluruh produk.</p></div>
+          <div class="card"><h4>Ringan &amp; Cepat</h4><p>Prioritas performa di atas efek visual yang berlebihan.</p></div>
+          <div class="card"><h4>Ramah Non-Teknis</h4><p>Bahasa dan alur antarmuka disesuaikan untuk pengguna dengan literasi digital dasar.</p></div>
+        </div>
+
+        <h2 class="sub-title">9.2 Referensi Gaya</h2>
+        <p>Design system mengambil pendekatan visual dari Stripe, Linear, Vercel, HubSpot, Gojek Business, dan Google Workspace — dikombinasikan menjadi identitas BinaUsaha yang khas: bersih, biru sebagai warna dominan, dan interaksi yang halus.</p>
+      </section>
+
+      <!-- 10 -->
+      <section id="s10" class="reveal">
+        <div class="eyebrow">Bagian 10</div>
+        <h1 class="sec-title">10. Design Tokens</h1>
+
+        <h2 class="sub-title">10.1 Warna</h2>
+        <div class="table-wrap"><table>
+          <thead><tr><th>Token</th><th>Nilai</th><th>Penggunaan</th></tr></thead>
+          <tbody>
+            <tr><td>color-primary</td><td>#1681FA</td><td>Aksi utama, tautan, ikon aktif</td></tr>
+            <tr><td>color-secondary</td><td>#0F172A</td><td>Teks judul, latar gelap</td></tr>
+            <tr><td>color-bg</td><td>#FFFFFF</td><td>Latar utama</td></tr>
+            <tr><td>color-bg-subtle</td><td>#EFF6FF</td><td>Latar section alternatif</td></tr>
+            <tr><td>color-border</td><td>#E5E7EB</td><td>Garis pembatas</td></tr>
+            <tr><td>color-success / warning / danger</td><td>#16A34A / #F59E0B / #EF4444</td><td>Status sistem</td></tr>
+          </tbody>
+        </table></div>
+
+        <h2 class="sub-title">10.2 Skala Tipografi</h2>
+        <div class="table-wrap"><table>
+          <thead><tr><th>Token</th><th>Ukuran</th><th>Font</th><th>Penggunaan</th></tr></thead>
+          <tbody>
+            <tr><td>display</td><td>48–60px</td><td>Plus Jakarta Sans, Bold</td><td>Headline Hero</td></tr>
+            <tr><td>h1</td><td>36px</td><td>Plus Jakarta Sans, Bold</td><td>Judul halaman</td></tr>
+            <tr><td>h2</td><td>28px</td><td>Plus Jakarta Sans, SemiBold</td><td>Judul section</td></tr>
+            <tr><td>h3</td><td>20px</td><td>Plus Jakarta Sans, SemiBold</td><td>Sub-judul, judul card</td></tr>
+            <tr><td>body</td><td>16px</td><td>Inter, Regular</td><td>Paragraf konten</td></tr>
+            <tr><td>small</td><td>14px</td><td>Inter, Regular</td><td>Keterangan, label</td></tr>
+          </tbody>
+        </table></div>
+
+        <h2 class="sub-title">10.3 Spacing Scale</h2>
+        <div class="table-wrap"><table>
+          <thead><tr><th>Token</th><th>Nilai (px)</th></tr></thead>
+          <tbody>
+            <tr><td>space-1</td><td>4</td></tr><tr><td>space-2</td><td>8</td></tr>
+            <tr><td>space-3</td><td>12</td></tr><tr><td>space-4</td><td>16</td></tr>
+            <tr><td>space-6</td><td>24</td></tr><tr><td>space-8</td><td>32</td></tr>
+            <tr><td>space-12</td><td>48</td></tr><tr><td>space-16</td><td>64</td></tr>
+          </tbody>
+        </table></div>
+
+        <h2 class="sub-title">10.4 Radius &amp; Shadow</h2>
+        <div class="table-wrap"><table>
+          <thead><tr><th>Token</th><th>Nilai</th><th>Penggunaan</th></tr></thead>
+          <tbody>
+            <tr><td>radius-md</td><td>8px</td><td>Input, badge kecil</td></tr>
+            <tr><td>radius-lg</td><td>16px</td><td>Card standar</td></tr>
+            <tr><td>radius-xl</td><td>24px</td><td>Card besar, modal</td></tr>
+            <tr><td>shadow-sm</td><td>0 1px 2px rgba(15,23,42,.06)</td><td>Elemen datar</td></tr>
+            <tr><td>shadow-md</td><td>0 8px 24px rgba(15,23,42,.08)</td><td>Card mengambang</td></tr>
+            <tr><td>shadow-lg</td><td>0 16px 40px rgba(15,23,42,.12)</td><td>Modal, dropdown</td></tr>
+          </tbody>
+        </table></div>
+
+        <h2 class="sub-title">10.5 Ikon</h2>
+        <p>Menggunakan set ikon Lucide dengan ukuran standar 20px (inline teks), 24px (navigasi/card), dan 32px (highlight/feature). Ketebalan garis (stroke) konsisten di 1.5px–2px.</p>
+      </section>
+
+      <!-- 11 -->
+      <section id="s11" class="reveal">
+        <div class="eyebrow">Bagian 11</div>
+        <h1 class="sec-title">11. Komponen UI</h1>
+
+        <h2 class="sub-title">11.1 Button</h2>
+        <div class="table-wrap"><table>
+          <thead><tr><th>Varian</th><th>Penggunaan</th><th>Gaya</th></tr></thead>
+          <tbody>
+            <tr><td>Primary</td><td>Aksi utama (Konsultasi Gratis)</td><td>Latar Primary, teks putih, radius-lg, shadow-sm</td></tr>
+            <tr><td>Secondary</td><td>Aksi pendukung (Lihat Solusi)</td><td>Outline Border, teks Secondary</td></tr>
+            <tr><td>Ghost</td><td>Aksi ringan dalam card/tabel</td><td>Tanpa latar, teks Primary, hover Light Blue</td></tr>
+            <tr><td>Danger</td><td>Aksi berisiko (hapus data)</td><td>Latar Danger, teks putih</td></tr>
+          </tbody>
+        </table></div>
+
+        <h2 class="sub-title">11.2 Card</h2>
+        <ul class="bullets">
+          <li>Card Solusi/Produk: ikon di atas, judul bold, deskripsi singkat, tautan &ldquo;Selengkapnya&rdquo;.</li>
+          <li>Card Statistik: angka besar dengan animasi count-up, label di bawahnya.</li>
+          <li>Card Testimoni: foto bulat, nama, jenis usaha, rating bintang, kutipan ulasan.</li>
+          <li>Semua card menggunakan radius-lg/xl, shadow-md, dan efek hover terangkat halus (translateY -4px).</li>
+        </ul>
+
+        <h2 class="sub-title">11.3 Navbar &amp; Footer</h2>
+        <ul class="bullets">
+          <li>Navbar: sticky, transparan di posisi atas, latar putih blur setelah discroll melewati Hero.</li>
+          <li>Footer: 4 kolom (Logo &amp; deskripsi singkat, Navigasi, Produk, Kontak &amp; Sosial Media) di desktop, menjadi accordion di mobile.</li>
+        </ul>
+
+        <h2 class="sub-title">11.4 Modal &amp; Form</h2>
+        <ul class="bullets">
+          <li>Modal: latar overlay gelap 60% opacity, konten radius-xl, dapat ditutup dengan tombol X atau klik luar area.</li>
+          <li>Form: label di atas input, border Border default, border Primary saat fokus, pesan error berwarna Danger di bawah field.</li>
+          <li>Form konsultasi menggunakan pendekatan multi-step (maks. 3 langkah) agar tidak terasa panjang bagi pengguna non-teknis.</li>
+        </ul>
+
+        <h2 class="sub-title">11.5 Komponen Status</h2>
+        <ul class="bullets">
+          <li>Badge Success (hijau): dokumen selesai, pembayaran berhasil.</li>
+          <li>Badge Warning (kuning): menunggu tindakan, dokumen dalam proses.</li>
+          <li>Badge Danger (merah): dokumen ditolak, pembayaran gagal.</li>
+        </ul>
+      </section>
+
+      <!-- 12 -->
+      <section id="s12" class="reveal">
+        <div class="eyebrow">Bagian 12</div>
+        <h1 class="sec-title">12. Animasi &amp; Interaction Guideline</h1>
+
+        <h2 class="sub-title">12.1 Jenis Micro Animation</h2>
+        <div class="table-wrap"><table>
+          <thead><tr><th>Jenis</th><th>Fungsi</th></tr></thead>
+          <tbody>
+            <tr><td>Hover</td><td>Respon visual saat kursor berada di atas elemen</td></tr>
+            <tr><td>Fade</td><td>Transisi kemunculan elemen secara halus</td></tr>
+            <tr><td>Slide</td><td>Elemen masuk dari sisi tertentu</td></tr>
+            <tr><td>Parallax</td><td>Efek kedalaman saat scroll</td></tr>
+            <tr><td>Count Up</td><td>Animasi angka statistik yang bertambah</td></tr>
+            <tr><td>Mouse Glow</td><td>Efek cahaya mengikuti kursor</td></tr>
+            <tr><td>Magnetic Button</td><td>Tombol tertarik mengikuti posisi kursor</td></tr>
+            <tr><td>Gradient Animation</td><td>Perubahan warna gradasi secara dinamis</td></tr>
+          </tbody>
+        </table></div>
+
+        <h2 class="sub-title">12.2 Prinsip Durasi &amp; Easing</h2>
+        <div class="table-wrap"><table>
+          <thead><tr><th>Interaksi</th><th>Durasi</th><th>Easing</th></tr></thead>
+          <tbody>
+            <tr><td>Hover elemen kecil (button, ikon)</td><td>150–200ms</td><td>ease-out</td></tr>
+            <tr><td>Transisi card / fade-in section</td><td>300–400ms</td><td>ease-in-out</td></tr>
+            <tr><td>Perpindahan halaman / modal</td><td>400–500ms</td><td>cubic-bezier halus</td></tr>
+            <tr><td>Count up statistik</td><td>1200–1800ms</td><td>ease-out, dipicu saat elemen masuk viewport</td></tr>
+          </tbody>
+        </table></div>
+        <p>Animasi digunakan untuk memperkuat pemahaman dan kepercayaan pengguna — bukan sekadar hiasan. Setiap animasi wajib memiliki opsi &ldquo;reduced motion&rdquo; untuk aksesibilitas.</p>
+      </section>
+
+      <!-- 13 -->
+      <section id="s13" class="reveal">
+        <div class="eyebrow">Bagian 13</div>
+        <h1 class="sec-title">13. Teknologi &amp; Arsitektur Sistem</h1>
+
+        <h2 class="sub-title">13.1 Lapisan Arsitektur</h2>
+        <div class="table-wrap"><table>
+          <thead><tr><th>Lapisan</th><th>Komponen</th><th>Fungsi</th></tr></thead>
+          <tbody>
+            <tr><td>Client</td><td>Browser / Aplikasi Web (Next.js)</td><td>Antarmuka pengguna, rendering halaman</td></tr>
+            <tr><td>Edge / CDN</td><td>Cloudflare + Vercel Edge</td><td>Distribusi konten cepat, keamanan dasar</td></tr>
+            <tr><td>Application</td><td>Next.js App Router (Server Components)</td><td>Logika halaman, API route, rendering</td></tr>
+            <tr><td>Data</td><td>Supabase (PostgreSQL, Auth, Storage, Realtime)</td><td>Penyimpanan data, autentikasi, file</td></tr>
+            <tr><td>Integrasi</td><td>Midtrans, WhatsApp API, n8n, Resend</td><td>Pembayaran, notifikasi, otomatisasi workflow</td></tr>
+          </tbody>
+        </table></div>
+
+        <h2 class="sub-title">13.2 Frontend</h2>
+        <ul class="bullets"><li>Next.js 16 (App Router)</li><li>React 19</li><li>TypeScript</li><li>Tailwind CSS v4</li><li>shadcn/ui</li><li>Radix UI</li><li>Lucide React</li><li>Framer Motion</li><li>React Hook Form</li><li>Zod</li><li>TanStack Query</li><li>Zustand</li></ul>
+
+        <h2 class="sub-title">13.3 Backend</h2>
+        <ul class="bullets"><li>Supabase (PostgreSQL)</li><li>Supabase Auth</li><li>Supabase Storage</li><li>Supabase Realtime</li><li>Edge Functions (bila diperlukan)</li></ul>
+
+        <h2 class="sub-title">13.4 Integrasi</h2>
+        <ul class="bullets"><li>Midtrans (Payment Gateway)</li><li>WhatsApp API / Click-to-Chat</li><li>Google Analytics 4</li><li>Google Tag Manager</li><li>Google Search Console</li><li>Meta Pixel</li><li>Cloudflare Turnstile (anti-spam)</li><li>Resend (email)</li><li>n8n (workflow automation)</li></ul>
+
+        <h2 class="sub-title">13.5 Infrastruktur</h2>
+        <ul class="bullets"><li>Vercel (Hosting)</li><li>Cloudflare (DNS &amp; CDN)</li><li>GitHub (Version Control)</li><li>GitHub Actions (CI/CD)</li></ul>
+
+        <h2 class="sub-title">13.6 Optimasi</h2>
+        <ul class="bullets"><li>Server Components</li><li>Partial Prerendering (PPR)</li><li>Image Optimization</li><li>Lazy Loading</li><li>Dynamic Imports</li><li>Edge Runtime</li><li>ISR (Incremental Static Regeneration)</li><li>Format WebP/AVIF</li><li>Caching Strategy</li></ul>
+      </section>
+
+      <!-- 14 -->
+      <section id="s14" class="reveal">
+        <div class="eyebrow">Bagian 14</div>
+        <h1 class="sec-title">14. Database &amp; ERD</h1>
+        <p class="lead">Struktur data inti dirancang agar setiap entitas usaha (business) menjadi pusat relasi ke seluruh modul — legalitas, transaksi, konsultasi, dan konten.</p>
+
+        <h2 class="sub-title">14.1 Entitas Utama</h2>
+        <div class="table-wrap"><table>
+          <thead><tr><th>Entitas</th><th>Deskripsi</th><th>Relasi Kunci</th></tr></thead>
+          <tbody>
+            <tr><td>users</td><td>Akun pengguna (pemilik usaha, admin, konsultan)</td><td>1 user → banyak businesses</td></tr>
+            <tr><td>businesses</td><td>Profil usaha UMKM</td><td>1 business → banyak documents, transactions, consultations</td></tr>
+            <tr><td>documents</td><td>Dokumen legalitas (NIB, halal, izin lain)</td><td>Terhubung ke businesses</td></tr>
+            <tr><td>consultations</td><td>Jadwal &amp; riwayat konsultasi</td><td>Terhubung ke businesses &amp; konsultan (users)</td></tr>
+            <tr><td>products</td><td>Katalog produk/layanan BinaUsaha</td><td>Terhubung ke orders</td></tr>
+            <tr><td>orders</td><td>Transaksi pembelian layanan</td><td>Terhubung ke businesses, products, payments</td></tr>
+            <tr><td>payments</td><td>Riwayat &amp; status pembayaran</td><td>Terhubung ke orders (via Midtrans)</td></tr>
+            <tr><td>rajakas_transactions</td><td>Transaksi kasir harian usaha</td><td>Terhubung ke businesses</td></tr>
+            <tr><td>articles</td><td>Konten artikel &amp; kategori</td><td>Berdiri sendiri, terhubung ke authors (users)</td></tr>
+            <tr><td>testimonials</td><td>Ulasan pelanggan</td><td>Terhubung ke businesses</td></tr>
+          </tbody>
+        </table></div>
+
+        <h2 class="sub-title">14.2 Relasi Inti (Ringkasan ERD)</h2>
+        <ul class="bullets">
+          <li>users (1) — (N) businesses</li>
+          <li>businesses (1) — (N) documents</li>
+          <li>businesses (1) — (N) consultations — (N) users [konsultan]</li>
+          <li>businesses (1) — (N) orders — (N) products</li>
+          <li>orders (1) — (1) payments</li>
+          <li>businesses (1) — (N) rajakas_transactions</li>
+          <li>businesses (1) — (N) testimonials</li>
+        </ul>
+        <p>Diagram ERD visual (bentuk grafis) disusun terpisah oleh tim database menggunakan skema di atas sebagai acuan sebelum implementasi ke Supabase (PostgreSQL).</p>
+      </section>
+
+      <!-- 15 -->
+      <section id="s15" class="reveal">
+        <div class="eyebrow">Bagian 15</div>
+        <h1 class="sec-title">15. API Structure</h1>
+        <p class="lead">API mengikuti pola REST melalui Next.js API Route / Supabase Edge Functions, dikelompokkan berdasarkan domain fungsional.</p>
+
+        <div class="table-wrap"><table>
+          <thead><tr><th>Grup Endpoint</th><th>Contoh Rute</th><th>Fungsi</th></tr></thead>
+          <tbody>
+            <tr><td>Auth</td><td>/api/auth/login, /api/auth/register</td><td>Autentikasi &amp; manajemen sesi pengguna</td></tr>
+            <tr><td>Business</td><td>/api/business, /api/business/[id]</td><td>CRUD profil usaha</td></tr>
+            <tr><td>Documents</td><td>/api/documents, /api/documents/[id]/status</td><td>Unggah &amp; pelacakan status dokumen legalitas</td></tr>
+            <tr><td>Consultations</td><td>/api/consultations, /api/consultations/[id]</td><td>Penjadwalan dan riwayat konsultasi</td></tr>
+            <tr><td>Products &amp; Orders</td><td>/api/products, /api/orders</td><td>Katalog layanan dan proses pemesanan</td></tr>
+            <tr><td>Payments</td><td>/api/payments/webhook</td><td>Callback status pembayaran dari Midtrans</td></tr>
+            <tr><td>RajaKas</td><td>/api/rajakas/transactions, /api/rajakas/reports</td><td>Pencatatan kasir dan laporan keuangan</td></tr>
+            <tr><td>Content</td><td>/api/articles, /api/faq</td><td>Konten artikel dan FAQ untuk SEO</td></tr>
+          </tbody>
+        </table></div>
+
+        <h2 class="sub-title">15.1 Prinsip Desain API</h2>
+        <ul class="bullets">
+          <li>Autentikasi menggunakan Supabase Auth (JWT) pada setiap permintaan yang memerlukan sesi pengguna.</li>
+          <li>Versioning disiapkan sejak awal (contoh: /api/v1/...) untuk mengantisipasi perubahan besar di masa depan.</li>
+          <li>Setiap respons mengikuti format konsisten: { data, error, meta } agar mudah ditangani di sisi frontend.</li>
+          <li>Webhook pembayaran diverifikasi menggunakan signature key resmi dari Midtrans sebelum memperbarui status order.</li>
+        </ul>
+      </section>
+
+      <!-- 16 -->
+      <section id="s16" class="reveal">
+        <div class="eyebrow">Bagian 16</div>
+        <h1 class="sec-title">16. SEO Strategy</h1>
+
+        <h2 class="sub-title">16.1 Fondasi Teknis</h2>
+        <ul class="bullets">
+          <li>Schema.org markup (Organization, Product, Article, FAQ)</li>
+          <li>OG Image dinamis per halaman</li>
+          <li>Meta title &amp; description dinamis</li>
+          <li>robots.txt &amp; sitemap.xml otomatis</li>
+          <li>RSS feed untuk artikel</li>
+          <li>Canonical URL di setiap halaman</li>
+          <li>Breadcrumb terstruktur (JSON-LD)</li>
+        </ul>
+
+        <h2 class="sub-title">16.2 Strategi Konten</h2>
+        <div class="table-wrap"><table>
+          <thead><tr><th>Pilar Konten</th><th>Contoh Topik</th><th>Tujuan</th></tr></thead>
+          <tbody>
+            <tr><td>Legalitas UMKM</td><td>Cara mengurus NIB, syarat sertifikasi halal</td><td>Menjaring pencarian informasional &amp; membangun otoritas</td></tr>
+            <tr><td>Digital &amp; Website UMKM</td><td>Manfaat website bagi usaha kecil</td><td>Mengarahkan ke produk Website UMKM</td></tr>
+            <tr><td>Keuangan &amp; Kasir</td><td>Tips mencatat keuangan usaha kecil</td><td>Mengarahkan ke produk RajaKas</td></tr>
+            <tr><td>Studi Kasus &amp; Testimoni</td><td>Cerita sukses UMKM binaan</td><td>Membangun kepercayaan &amp; bukti sosial</td></tr>
+          </tbody>
+        </table></div>
+
+        <h2 class="sub-title">16.3 Target Performa</h2>
+        <div class="stat-grid">
+          <div class="stat-card"><div class="num" data-count="100">0</div><div class="lbl">Performance</div></div>
+          <div class="stat-card"><div class="num" data-count="100">0</div><div class="lbl">Accessibility</div></div>
+          <div class="stat-card"><div class="num" data-count="100">0</div><div class="lbl">SEO</div></div>
+          <div class="stat-card"><div class="num" data-count="100">0</div><div class="lbl">Best Practices</div></div>
+        </div>
+      </section>
+
+      <!-- 17 -->
+      <section id="s17" class="reveal">
+        <div class="eyebrow">Bagian 17</div>
+        <h1 class="sec-title">17. AI Integration</h1>
+        <p class="lead">Kecerdasan buatan digunakan sebagai pendukung, bukan pengganti pendampingan manusia — fokus pada mempercepat respons awal dan memberi wawasan yang mudah dipahami pelaku UMKM.</p>
+
+        <div class="card-grid">
+          <div class="card"><h4>Asisten Konsultasi Awal</h4><p>Chatbot AI menjawab pertanyaan umum dan mengarahkan ke jenis konsultasi/produk yang paling relevan sebelum terhubung ke tim manusia.</p></div>
+          <div class="card"><h4>Asisten Konten &amp; Artikel</h4><p>Membantu tim internal menyusun draf artikel edukasi UMKM secara lebih cepat, tetap melalui proses review manusia.</p></div>
+          <div class="card"><h4>Insight Keuangan RajaKas</h4><p>Menganalisis pola transaksi kasir untuk memberi ringkasan sederhana, misalnya produk terlaris atau jam ramai.</p></div>
+          <div class="card"><h4>Rekomendasi Produk</h4><p>Menyarankan layanan BinaUsaha berikutnya berdasarkan profil dan tahap perkembangan usaha pengguna.</p></div>
+        </div>
+
+        <h2 class="sub-title">17.1 Prinsip Penggunaan AI</h2>
+        <ul class="bullets">
+          <li>Transparan — pengguna selalu tahu kapan sedang berinteraksi dengan AI, bukan manusia.</li>
+          <li>Tidak menggantikan keputusan bisnis — hasil AI bersifat rekomendasi, keputusan akhir tetap di tangan pengguna atau konsultan.</li>
+          <li>Privasi data — data transaksi dan dokumen usaha tidak digunakan untuk melatih model pihak ketiga tanpa izin eksplisit.</li>
+        </ul>
+      </section>
+
+      <!-- 18 -->
+      <section id="s18" class="reveal">
+        <div class="eyebrow">Bagian 18</div>
+        <h1 class="sec-title">18. Dashboard Admin</h1>
+        <p class="lead">Digunakan oleh tim internal BinaUsaha untuk mengelola prospek, konten, produk, dan operasional layanan.</p>
+        <div class="table-wrap"><table>
+          <thead><tr><th>Modul</th><th>Fungsi Utama</th></tr></thead>
+          <tbody>
+            <tr><td>Manajemen Leads &amp; Konsultasi</td><td>Melihat, menugaskan, dan menindaklanjuti permintaan konsultasi gratis</td></tr>
+            <tr><td>Manajemen Pengguna &amp; Usaha</td><td>Mengelola data akun pengguna dan profil usaha terdaftar</td></tr>
+            <tr><td>Manajemen Dokumen Legalitas</td><td>Memantau dan memperbarui status pengurusan dokumen tiap usaha</td></tr>
+            <tr><td>Manajemen Produk &amp; Harga</td><td>Mengatur katalog produk, paket harga, dan promo</td></tr>
+            <tr><td>Manajemen Konten</td><td>Mengelola artikel, FAQ, dan testimoni yang tampil di website</td></tr>
+            <tr><td>Laporan &amp; Analitik Internal</td><td>Statistik jumlah leads, konversi, dan performa tim konsultan</td></tr>
+          </tbody>
+        </table></div>
+      </section>
+
+      <!-- 19 -->
+      <section id="s19" class="reveal">
+        <div class="eyebrow">Bagian 19</div>
+        <h1 class="sec-title">19. Dashboard Customer</h1>
+        <p class="lead">Digunakan oleh pelaku UMKM sebagai pusat kendali seluruh layanan yang mereka gunakan di BinaUsaha.</p>
+        <div class="table-wrap"><table>
+          <thead><tr><th>Modul</th><th>Fungsi Utama</th></tr></thead>
+          <tbody>
+            <tr><td>Ringkasan</td><td>Gambaran umum status legalitas, transaksi, dan jadwal konsultasi</td></tr>
+            <tr><td>Profil Usaha</td><td>Data identitas usaha yang digunakan di seluruh layanan</td></tr>
+            <tr><td>Legalitas &amp; Dokumen</td><td>Melacak progres dan mengunduh dokumen resmi usaha</td></tr>
+            <tr><td>RajaKas</td><td>Pencatatan transaksi kasir dan laporan keuangan usaha</td></tr>
+            <tr><td>Website Saya</td><td>Mengelola konten &amp; pengaturan website usaha (bila menggunakan produk Website UMKM)</td></tr>
+            <tr><td>Jadwal Konsultasi</td><td>Melihat dan mengatur ulang jadwal pendampingan</td></tr>
+            <tr><td>Laporan &amp; Analitik</td><td>Ringkasan performa usaha dari waktu ke waktu</td></tr>
+          </tbody>
+        </table></div>
+      </section>
+
+      <!-- 20 -->
+      <section id="s20" class="reveal">
+        <div class="eyebrow">Bagian 20</div>
+        <h1 class="sec-title">20. Roadmap Pengembangan</h1>
+        <div class="table-wrap"><table>
+          <thead><tr><th>Fase</th><th>Fokus</th><th>Cakupan Utama</th></tr></thead>
+          <tbody>
+            <tr><td>Fase 1 — Fondasi</td><td>Peluncuran website &amp; funnel konsultasi</td><td>Halaman utama, halaman produk, form konsultasi, artikel, SEO dasar</td></tr>
+            <tr><td>Fase 2 — Dashboard Customer</td><td>Onboarding pelanggan digital</td><td>Login/daftar, profil usaha, pelacakan status legalitas, jadwal konsultasi</td></tr>
+            <tr><td>Fase 3 — RajaKas &amp; Pembayaran</td><td>Operasional harian UMKM</td><td>Sistem kasir, laporan keuangan, integrasi pembayaran Midtrans</td></tr>
+            <tr><td>Fase 4 — Ekosistem &amp; AI</td><td>Skalabilitas &amp; personalisasi</td><td>Dashboard admin penuh, integrasi AI, rekomendasi produk, marketplace layanan</td></tr>
+          </tbody>
+        </table></div>
+        <p>Roadmap ini bersifat indikatif dan dapat disesuaikan berdasarkan prioritas bisnis, kapasitas tim pengembang, dan masukan pengguna di setiap fase peluncuran.</p>
+      </section>
+
+      <footer>
+        BinaUsaha.com — Master Website Architecture V3 &middot; Dokumen internal untuk tim desain, developer &amp; stakeholder &middot; Juli 2026
+      </footer>
+
+    </div>
+  </div>
+</div>
+
+<script>
+  // Scroll reveal
+  const revealEls = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+  }, { threshold: 0.08 });
+  revealEls.forEach(el => io.observe(el));
+
+  // Count-up stats
+  const nums = document.querySelectorAll('.stat-card .num');
+  const numIO = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (!e.isIntersecting) return;
+      const el = e.target;
+      const target = parseInt(el.getAttribute('data-count'), 10);
+      const suffix = el.getAttribute('data-suffix') || '';
+      const dur = 1400;
+      const start = performance.now();
+      function tick(now){
+        const p = Math.min(1, (now - start) / dur);
+        const eased = 1 - Math.pow(1 - p, 3);
+        el.textContent = Math.round(eased * target) + suffix;
+        if (p < 1) requestAnimationFrame(tick);
+      }
+      requestAnimationFrame(tick);
+      numIO.unobserve(el);
+    });
+  }, { threshold: 0.4 });
+  nums.forEach(el => numIO.observe(el));
+
+  // Active TOC link on scroll
+  const sections = document.querySelectorAll('section[id]');
+  const links = document.querySelectorAll('.sidebar nav a');
+  const navIO = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      const id = entry.target.getAttribute('id');
+      const link = document.querySelector('.sidebar nav a[href="#' + id + '"]');
+      if (!link) return;
+      if (entry.isIntersecting) {
+        links.forEach(l => l.classList.remove('active'));
+        link.classList.add('active');
+      }
+    });
+  }, { rootMargin: '-20% 0px -70% 0px' });
+  sections.forEach(s => navIO.observe(s));
+
+  // Mobile menu toggle
+  const toggle = document.getElementById('menuToggle');
+  const sidebar = document.getElementById('sidebar');
+  if (toggle) {
+    toggle.addEventListener('click', () => sidebar.classList.toggle('open'));
+    links.forEach(l => l.addEventListener('click', () => sidebar.classList.remove('open')));
+  }
+</script>
+
+</body>
+</html>
